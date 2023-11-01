@@ -19,6 +19,9 @@ namespace MedicalEquipmentSupplySystem.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<HospitalWorker>().ToTable("HospitalWorkers");
+            modelBuilder.Entity<SystemAdministrator>().ToTable("SystemAdministrators");
+            modelBuilder.Entity<CompanyAdministrator>().ToTable("CompanyAdministrators");
 
             modelBuilder.Entity<User>(x =>
             {
@@ -36,6 +39,14 @@ namespace MedicalEquipmentSupplySystem.DataAccess
                 x.Property(x => x.City).IsRequired(true);
                 x.Property(x => x.Country).IsRequired(true);
             });
+
+            modelBuilder.Entity<EquipmentReservation>()
+                .HasOne(e => e.Equipment)
+                .WithOne(e => e.EquipmentReservation)
+                .HasForeignKey<EquipmentReservation>(e => e.EquipmentId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+ 
         }
     }
 }

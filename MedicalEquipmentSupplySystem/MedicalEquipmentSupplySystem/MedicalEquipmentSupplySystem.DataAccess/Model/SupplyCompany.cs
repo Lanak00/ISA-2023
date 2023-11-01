@@ -10,6 +10,6 @@
         public float Rating { get; set; }
         public string Description { get; set; }
 
-        public IEnumerable<Equipment> Equipments { get; set; }
+        public IEnumerable<Equipment> EquipmentList { get; set; }
     }
 }

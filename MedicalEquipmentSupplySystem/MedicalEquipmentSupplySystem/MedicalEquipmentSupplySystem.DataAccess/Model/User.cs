@@ -25,7 +25,6 @@
         public string Country { get; set; }
         public Gender Gender { get; set; }
         public UserRole Role { get; set; }
-        public string Company { get; set; }
 
     }
 }
