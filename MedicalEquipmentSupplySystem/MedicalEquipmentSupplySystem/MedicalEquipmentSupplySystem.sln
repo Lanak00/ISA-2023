@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalEquipmentSupplySystem.API", "MedicalEquipmentSupplySystem\MedicalEquipmentSupplySystem.API.csproj", "{649D4EB8-4326-4A15-B514-7829142EA64C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalEquipmentSupplySystem.API", "MedicalEquipmentSupplySystem\MedicalEquipmentSupplySystem.API.csproj", "{649D4EB8-4326-4A15-B514-7829142EA64C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalEquipmentSupplySystem.BussinessLogic", "MedicalEquipmentSupplySystem.BussinessLogic\MedicalEquipmentSupplySystem.BussinessLogic.csproj", "{FBABF0F2-AF23-498E-90E7-7E4A7D2C57CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalEquipmentSupplySystem.BussinessLogic", "MedicalEquipmentSupplySystem.BussinessLogic\MedicalEquipmentSupplySystem.BussinessLogic.csproj", "{FBABF0F2-AF23-498E-90E7-7E4A7D2C57CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalEquipmentSupplySystem.DataAccess", "MedicalEquipmentSupplySystem.DataAccess\MedicalEquipmentSupplySystem.DataAccess.csproj", "{B30FA215-5E81-4EDC-ACA8-4257CF0EDCB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicalEquipmentSupplySystem.DataAccess", "MedicalEquipmentSupplySystem.DataAccess\MedicalEquipmentSupplySystem.DataAccess.csproj", "{B30FA215-5E81-4EDC-ACA8-4257CF0EDCB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

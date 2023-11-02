@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MedicalEquipmentSupplySystem.DataAccess
 {
-    internal class MedicalEquipmentSupplySystemContextFactory : IDesignTimeDbContextFactory<MedicalEquipmentSupplySystemDbContext>
+    public class MedicalEquipmentSupplySystemContextFactory : IDesignTimeDbContextFactory<MedicalEquipmentSupplySystemDbContext>
     {
         public MedicalEquipmentSupplySystemDbContext CreateDbContext(string[] args)
         {

@@ -15,8 +15,7 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Model
         public Guid EquipmentId { get; set; }
         public HospitalWorker HospitalWorker { get; set; }
         public Guid HospitalWorkerId { get; set; }
-        public SystemAdministrator SystemAdministrator { get; set; }
-        public Guid SystemAdministratorId { get; set; }
-
+        public CompanyAdministrator CompanyAdministrator { get; set; }
+        public Guid CompanyAdministratorId { get; set; }
     }
 }

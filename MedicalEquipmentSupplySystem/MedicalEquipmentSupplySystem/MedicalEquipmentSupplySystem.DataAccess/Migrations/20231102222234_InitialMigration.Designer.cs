@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
 {
     [DbContext(typeof(MedicalEquipmentSupplySystemDbContext))]
-    [Migration("20231101075515_InitialMigration")]
+    [Migration("20231102222234_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,9 +31,6 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("EquipmentReservationId")
-                        .HasColumnType("char(36)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -41,12 +38,13 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                     b.Property<Guid>("SupplyCompanyId")
                         .HasColumnType("char(36)");
 
-                    b.Property<int>("SupplyCompanyId1")
-                        .HasColumnType("int");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SupplyCompanyId1");
+                    b.HasIndex("SupplyCompanyId");
 
                     b.ToTable("Equipment");
                 });
@@ -55,6 +53,9 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CompanyAdministratorId")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime>("DateTime")
@@ -69,26 +70,22 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                     b.Property<Guid>("HospitalWorkerId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("SystemAdministratorId")
-                        .HasColumnType("char(36)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("EquipmentId")
-                        .IsUnique();
+                    b.HasIndex("CompanyAdministratorId");
+
+                    b.HasIndex("EquipmentId");
 
                     b.HasIndex("HospitalWorkerId");
-
-                    b.HasIndex("SystemAdministratorId");
 
                     b.ToTable("EquipmentReservation");
                 });
 
             modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.SupplyCompany", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -110,8 +107,8 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<float>("Rating")
-                        .HasColumnType("float");
+                    b.Property<double>("Rating")
+                        .HasColumnType("double");
 
                     b.HasKey("Id");
 
@@ -149,6 +146,9 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsValidated")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -168,6 +168,11 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
             modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.CompanyAdministrator", b =>
                 {
                     b.HasBaseType("MedicalEquipmentSupplySystem.DataAccess.Model.User");
+
+                    b.Property<Guid?>("SupplyCompanyId")
+                        .HasColumnType("char(36)");
+
+                    b.HasIndex("SupplyCompanyId");
 
                     b.ToTable("CompanyAdministrators", (string)null);
                 });
@@ -196,8 +201,8 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
             modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.Equipment", b =>
                 {
                     b.HasOne("MedicalEquipmentSupplySystem.DataAccess.Model.SupplyCompany", "SupplyCompany")
-                        .WithMany("EquipmentList")
-                        .HasForeignKey("SupplyCompanyId1")
+                        .WithMany("equipmentList")
+                        .HasForeignKey("SupplyCompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -206,9 +211,15 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
 
             modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.EquipmentReservation", b =>
                 {
+                    b.HasOne("MedicalEquipmentSupplySystem.DataAccess.Model.CompanyAdministrator", "CompanyAdministrator")
+                        .WithMany()
+                        .HasForeignKey("CompanyAdministratorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MedicalEquipmentSupplySystem.DataAccess.Model.Equipment", "Equipment")
-                        .WithOne("EquipmentReservation")
-                        .HasForeignKey("MedicalEquipmentSupplySystem.DataAccess.Model.EquipmentReservation", "EquipmentId")
+                        .WithMany("equipmentReservations")
+                        .HasForeignKey("EquipmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -218,17 +229,11 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MedicalEquipmentSupplySystem.DataAccess.Model.SystemAdministrator", "SystemAdministrator")
-                        .WithMany()
-                        .HasForeignKey("SystemAdministratorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("CompanyAdministrator");
 
                     b.Navigation("Equipment");
 
                     b.Navigation("HospitalWorker");
-
-                    b.Navigation("SystemAdministrator");
                 });
 
             modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.CompanyAdministrator", b =>
@@ -238,6 +243,10 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                         .HasForeignKey("MedicalEquipmentSupplySystem.DataAccess.Model.CompanyAdministrator", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("MedicalEquipmentSupplySystem.DataAccess.Model.SupplyCompany", null)
+                        .WithMany("companyAdministrators")
+                        .HasForeignKey("SupplyCompanyId");
                 });
 
             modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.HospitalWorker", b =>
@@ -260,13 +269,14 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
 
             modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.Equipment", b =>
                 {
-                    b.Navigation("EquipmentReservation")
-                        .IsRequired();
+                    b.Navigation("equipmentReservations");
                 });
 
             modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.SupplyCompany", b =>
                 {
-                    b.Navigation("EquipmentList");
+                    b.Navigation("companyAdministrators");
+
+                    b.Navigation("equipmentList");
                 });
 
             modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.HospitalWorker", b =>

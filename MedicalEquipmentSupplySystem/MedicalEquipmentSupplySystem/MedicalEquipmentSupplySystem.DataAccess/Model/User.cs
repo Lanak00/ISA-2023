@@ -25,6 +25,7 @@
         public string Country { get; set; }
         public Gender Gender { get; set; }
         public UserRole Role { get; set; }
+        public bool IsValidated { get; set; }
 
     }
 }
