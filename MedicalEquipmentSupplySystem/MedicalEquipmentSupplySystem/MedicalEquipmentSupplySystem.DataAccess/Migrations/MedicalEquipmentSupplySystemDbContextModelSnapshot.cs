@@ -21,9 +21,9 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
 
             modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.Equipment", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -33,8 +33,8 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("SupplyCompanyId")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("SupplyCompanyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -49,12 +49,12 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
 
             modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.EquipmentReservation", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("CompanyAdministratorId")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("CompanyAdministratorId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime(6)");
@@ -62,11 +62,11 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("EquipmentId")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("EquipmentId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("HospitalWorkerId")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("HospitalWorkerId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -81,9 +81,9 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
 
             modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.SupplyCompany", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -115,9 +115,9 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
 
             modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -167,8 +167,8 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                 {
                     b.HasBaseType("MedicalEquipmentSupplySystem.DataAccess.Model.User");
 
-                    b.Property<Guid?>("SupplyCompanyId")
-                        .HasColumnType("char(36)");
+                    b.Property<int?>("SupplyCompanyId")
+                        .HasColumnType("int");
 
                     b.HasIndex("SupplyCompanyId");
 

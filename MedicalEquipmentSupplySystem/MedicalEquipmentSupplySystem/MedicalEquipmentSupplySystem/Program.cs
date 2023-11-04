@@ -1,4 +1,12 @@
+using MedicalEquipmentSupplySystem.BussinessLogic.Interfaces;
+using MedicalEquipmentSupplySystem.BussinessLogic.Services;
+using MedicalEquipmentSupplySystem.DataAccess;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var config = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json", optional: false)
+        .Build();
 
 // Add services to the container.
 
@@ -7,7 +15,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var contextFactory = new MedicalEquipmentSupplySystemContextFactory();
+string connectionString = "server=localhost;database=medicalequipmentsupplysystem;uid=root;pwd=root;Old Guids=true";
+var context = contextFactory.CreateDbContext(new string[] { connectionString });
+
+var supplyCompanyRepository = new MedicalEquipmentSupplySystem.DataAccess.Repository.SupplyCompanyRepository(context);
+
+builder.Services.AddScoped<ISupplyCompanyService>(_ => new SupplyCompanyService(supplyCompanyRepository));
+
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

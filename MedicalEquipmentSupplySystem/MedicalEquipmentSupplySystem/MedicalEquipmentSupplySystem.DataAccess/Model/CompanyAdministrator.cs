@@ -10,7 +10,7 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Model
     {
         public CompanyAdministrator() => this.Role = UserRole.CompanyAdministrator;
 
-        public Guid? SupplyCompanyId { get; set; }
+        public int? SupplyCompanyId { get; set; }
 
     }
 }

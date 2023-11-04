@@ -8,14 +8,14 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Model
 {
     public class EquipmentReservation 
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public DateTime DateTime { get; set; }
         public int Duration { get; set; }
         public Equipment Equipment { get; set; }
-        public Guid EquipmentId { get; set; }
+        public int EquipmentId { get; set; }
         public HospitalWorker HospitalWorker { get; set; }
-        public Guid HospitalWorkerId { get; set; }
+        public int HospitalWorkerId { get; set; }
         public CompanyAdministrator CompanyAdministrator { get; set; }
-        public Guid CompanyAdministratorId { get; set; }
+        public int CompanyAdministratorId { get; set; }
     }
 }
