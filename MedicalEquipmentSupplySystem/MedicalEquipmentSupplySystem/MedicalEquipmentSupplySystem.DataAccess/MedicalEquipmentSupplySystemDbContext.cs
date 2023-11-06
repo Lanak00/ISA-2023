@@ -11,7 +11,10 @@ namespace MedicalEquipmentSupplySystem.DataAccess
         public MedicalEquipmentSupplySystemDbContext(DbContextOptions<MedicalEquipmentSupplySystemDbContext> options) : base(options)
         { }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }  
+        public DbSet<HospitalWorker> HospitalWorkers { get; set; }
+        public DbSet<CompanyAdministrator> CompanyAdministrators { get; set; }
+        public DbSet<SystemAdministrator> SystemAdministrators { get; set; }
         public DbSet<SupplyCompany> SupplyCompanies { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
 

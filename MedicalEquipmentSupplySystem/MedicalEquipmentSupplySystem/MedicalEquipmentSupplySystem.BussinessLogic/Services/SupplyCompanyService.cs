@@ -1,5 +1,6 @@
 ﻿using MedicalEquipmentSupplySystem.BussinessLogic.Interfaces;
 using MedicalEquipmentSupplySystem.DataAccess.Model;
+using MedicalEquipmentSupplySystem.BussinessLogic.DTO;
 using MedicalEquipmentSupplySystem.DataAccess.Repository;
 using System.Linq.Expressions;
 
@@ -28,7 +29,7 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
             _supplyCompanyRepository = supplyCompanyRepository;
         }
 
-        public IEnumerable<SupplyCompany> GetSupplyCompanies(string? name, string? city, SortSupplyCompaniesBy? sortBy, SortOrder? sortOrder)
+        public IEnumerable<SupplyCompanyResponseDTO> GetSupplyCompanies(string? name, string? city, SortSupplyCompaniesBy? sortBy, SortOrder? sortOrder)
         {
             List<Predicate<SupplyCompany>> conditions = new();
 
@@ -51,7 +52,7 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
                 supplyCompanies = sortOrder == SortOrder.Asc ?
                     supplyCompanies.OrderBy(x => x.Rating) : supplyCompanies.OrderByDescending(x => x.Rating);
 
-            return supplyCompanies.Select(x => new SupplyCompany()
+            return supplyCompanies.Select(x => new SupplyCompanyResponseDTO()
             {
                 Id = x.Id,
                 Name = x.Name,
