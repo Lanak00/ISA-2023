@@ -20,8 +20,10 @@ string connectionString = "server=localhost;database=medicalequipmentsupplysyste
 var context = contextFactory.CreateDbContext(new string[] { connectionString });
 
 var supplyCompanyRepository = new MedicalEquipmentSupplySystem.DataAccess.Repository.SupplyCompanyRepository(context);
+var userRepository = new MedicalEquipmentSupplySystem.DataAccess.Repository.UserRepository(context);
 
 builder.Services.AddScoped<ISupplyCompanyService>(_ => new SupplyCompanyService(supplyCompanyRepository));
+builder.Services.AddScoped<IUserService>(_ => new UserService(userRepository));
 
 var app = builder.Build();
 
