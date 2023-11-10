@@ -1,6 +1,6 @@
 ﻿using MedicalEquipmentSupplySystem.BussinessLogic.DTO;
 using MedicalEquipmentSupplySystem.BussinessLogic.DTO.HospitalWorker;
-using MedicalEquipmentSupplySystem.DataAccess.Model;
+using MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace MedicalEquipmentSupplySystem.BussinessLogic.Interfaces
 {
-    public interface IUserService
+    public interface IAuthService
     {
-        HospitalWorkerResponseDTO GetHospitalWorker(int hospitalWorkerId);
+        public Register RegisterHospitalWorker(HospitalWorkerRegisterDTO user);
     }
 }

@@ -1,5 +1,6 @@
 using MedicalEquipmentSupplySystem.BussinessLogic.Interfaces;
 using MedicalEquipmentSupplySystem.BussinessLogic.Services;
+using MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth;
 using MedicalEquipmentSupplySystem.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,7 @@ var userRepository = new MedicalEquipmentSupplySystem.DataAccess.Repository.User
 
 builder.Services.AddScoped<ISupplyCompanyService>(_ => new SupplyCompanyService(supplyCompanyRepository));
 builder.Services.AddScoped<IUserService>(_ => new UserService(userRepository));
+builder.Services.AddScoped<IAuthService>(_ => new AuthService(userRepository));
 
 var app = builder.Build();
 

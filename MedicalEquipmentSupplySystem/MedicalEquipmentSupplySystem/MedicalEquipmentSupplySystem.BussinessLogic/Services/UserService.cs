@@ -34,21 +34,5 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
                 Penalties = hospitalWorker.Penalties
             };
         }
-
-        public void InsertHospitalWorker(HospitalWorkerRegisterDTO hospitalWorker)
-        {
-            var user = new HospitalWorker()
-            {
-                FirstName = hospitalWorker.FirstName,
-                LastName = hospitalWorker.LastName,
-                Address = hospitalWorker.Address,
-                City = hospitalWorker.City,
-                Country = hospitalWorker.Country,
-                Gender = (DataAccess.Model.Gender)hospitalWorker.Gender,
-                Company = hospitalWorker.Company,
-                Penalties = hospitalWorker.Penalties,
-                Role = 0
-            };
-        }
     }
 }
