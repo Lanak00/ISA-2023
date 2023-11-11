@@ -19,7 +19,7 @@ namespace MedicalEquipmentSupplySystem.API.Controllers
         }
 
         [HttpPost("register")]
-        public ActionResult<Guid> Register(HospitalWorkerRegisterDTO user)
+        public ActionResult<int> Register(HospitalWorkerRegisterDTO user)
         {
             var result = _authService.RegisterHospitalWorker(user);
             if (result.RegisterResult == RegisterResult.Success)

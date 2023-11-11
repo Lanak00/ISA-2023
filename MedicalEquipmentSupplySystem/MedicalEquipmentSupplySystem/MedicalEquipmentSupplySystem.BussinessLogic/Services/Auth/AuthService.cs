@@ -2,11 +2,7 @@
 using MedicalEquipmentSupplySystem.BussinessLogic.Interfaces;
 using MedicalEquipmentSupplySystem.DataAccess.Model;
 using MedicalEquipmentSupplySystem.DataAccess.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth
 {
@@ -49,7 +45,7 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth
                 Id = new int(),
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Password = user.Password,
+                Password = PasswordStorage.CreateHash(user.Password),
                 Email = user.Email,
                 Address = user.Address,
                 City = user.City,
@@ -63,5 +59,6 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth
             var id = _userRepository.AddHospitalWorker(hospitalWorker);
             return new Register() { RegisterResult = RegisterResult.Success, Id = id };
         }
+       
     }
 }

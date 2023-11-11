@@ -1,5 +1,5 @@
-﻿namespace BloodTransfusionBank.BussinessLogic.Services.Auth.PasswordSecurity.Exceptions
-{
+﻿namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth.Exceptions
+{ 
     class InvalidHashException : Exception
     {
         public InvalidHashException() { }

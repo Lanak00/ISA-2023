@@ -1,5 +1,6 @@
-﻿namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth.PasswordSecurity.Exceptions
+﻿namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth.Exceptions
 {
+
     class CannotPerformOperationException : Exception
     {
         public CannotPerformOperationException() { }

@@ -14,7 +14,7 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Repository
 
         public UserRepository(MedicalEquipmentSupplySystemDbContext context) => _context = context;
 
-        public User Get(Guid id) => _context.Users.Find(id);
+        public User Get(int id) => _context.Users.Find(id);
 
         public HospitalWorker GetHospitalWorker(int id) => _context.HospitalWorkers.Find(id);
 

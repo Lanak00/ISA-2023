@@ -1,9 +1,7 @@
-﻿using System.Security.Cryptography;
-using BloodTransfusionBank.BussinessLogic.Services.Auth.PasswordSecurity.Exceptions;
-using MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth.PasswordSecurity.Exceptions;
+﻿using MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth.Exceptions;
+using System.Security.Cryptography;
 
-
-namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth.PasswordSecurity
+namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth
 {
     class PasswordStorage
     {
@@ -16,7 +14,7 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth.PasswordSecu
         public const int HASH_SECTIONS = 5;
         public const int HASH_ALGORITHM_INDEX = 0;
         public const int ITERATION_INDEX = 1;
-        public const int HASH_SIZE_INDEX = 2;
+        public const int HASH_SIZE_INDEX = 2; 
         public const int SALT_INDEX = 3;
         public const int PBKDF2_INDEX = 4;
 
