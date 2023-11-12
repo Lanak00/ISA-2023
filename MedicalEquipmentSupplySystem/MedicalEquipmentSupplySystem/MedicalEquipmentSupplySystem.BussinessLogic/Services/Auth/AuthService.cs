@@ -59,6 +59,13 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth
             var id = _userRepository.AddHospitalWorker(hospitalWorker);
             return new Register() { RegisterResult = RegisterResult.Success, Id = id };
         }
-       
+        
+        public bool FindUser(HospitalWorkerRegisterDTO user)
+        {
+            var usr = _userRepository.GetByCondition(x => x.Email == user.Email).FirstOrDefault();
+            return (usr != null);
+                
+
+        }
     }
 }
