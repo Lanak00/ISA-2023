@@ -53,19 +53,12 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth
                 Gender = (DataAccess.Model.Gender)user.Gender,
                 IsValidated = false,
                 Company = user.Company,
-                Penalties = user.Penalties
+                Role = 0
             };
 
             var id = _userRepository.AddHospitalWorker(hospitalWorker);
             return new Register() { RegisterResult = RegisterResult.Success, Id = id };
         }
         
-        public bool FindUser(HospitalWorkerRegisterDTO user)
-        {
-            var usr = _userRepository.GetByCondition(x => x.Email == user.Email).FirstOrDefault();
-            return (usr != null);
-                
-
-        }
     }
 }

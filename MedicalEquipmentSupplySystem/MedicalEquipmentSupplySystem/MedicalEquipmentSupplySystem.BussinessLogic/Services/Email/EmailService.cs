@@ -1,54 +1,39 @@
 ﻿using MailKit.Net.Smtp;
+using MailKit.Security;
 using MedicalEquipmentSupplySystem.BussinessLogic.Interfaces;
+using Microsoft.Extensions.Options;
 using MimeKit;
-
+using MimeKit.Text;
 
 namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Email
 {
     public class EmailService : IEmailService
     {
-        public readonly EmailConfiguration _emailConfig;
-        public EmailService(EmailConfiguration emailConfig) => _emailConfig = emailConfig;
-
-        public void SendEmail(Message message)
+        private readonly EmailConfiguration _emailConfig;
+        public EmailService(IOptions<EmailConfiguration> emailConfig)
         {
-            var emailMessage = CreateEmailMessage(message);
-            Send(emailMessage);
+            _emailConfig = emailConfig.Value;
         }
 
-        private void Send(MimeMessage mailMessage)
+        public void SendEmail(EmailRequest emailRequest)
         {
-            using var client = new SmtpClient();
-            try
+            var email = new MimeMessage();
+            email.Sender = MailboxAddress.Parse(_emailConfig.From);
+            email.To.Add(MailboxAddress.Parse(emailRequest.ToEmail));
+            email.Subject = emailRequest.Subject;
+            //body?
+            BodyBuilder emailBodyBuilder = new BodyBuilder();   
+            emailBodyBuilder.TextBody = emailRequest.Body;
+            email.Body = emailBodyBuilder.ToMessageBody();
+
+            using (var smtp = new SmtpClient())
             {
-                client.Connect(_emailConfig.SmptServer, _emailConfig.Port, true);
-                client.AuthenticationMechanisms.Remove("XOAUTH2");
-                client.Authenticate(_emailConfig.Username, _emailConfig.Password);
-
-                client.Send(mailMessage);
-
+                smtp.Connect(_emailConfig.Host, _emailConfig.Port,
+                    SecureSocketOptions.StartTls);
+                smtp.Authenticate(_emailConfig.From, _emailConfig.Password);
+                smtp.Send(email);
+                smtp.Disconnect(true);
             }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                client.Disconnect(true);
-                client.Dispose();
-            }
-
-        }
-
-        private MimeMessage CreateEmailMessage(Message message)
-        {
-            var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("email", _emailConfig.From));
-            emailMessage.To.AddRange(message.To);
-            emailMessage.Subject = message.Subject;
-            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text) { Text = message.Content };
-
-            return emailMessage;
         }
     }
 }

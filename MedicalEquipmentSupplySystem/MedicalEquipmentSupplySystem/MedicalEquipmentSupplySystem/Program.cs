@@ -1,9 +1,11 @@
+using FluentAssertions.Common;
 using MedicalEquipmentSupplySystem.BussinessLogic.Interfaces;
 using MedicalEquipmentSupplySystem.BussinessLogic.Services;
 using MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth;
 using MedicalEquipmentSupplySystem.BussinessLogic.Services.Email;
 using MedicalEquipmentSupplySystem.DataAccess;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,11 +14,8 @@ var config = new ConfigurationBuilder()
         .Build();
 
 //Add email config
-var emailConfig = builder.Configuration
-    .GetSection("EmailConfiguration")
-    .Get<EmailConfiguration>();
-builder.Services.AddSingleton(emailConfig);
-
+builder.Services.Configure<EmailConfiguration>(config.GetSection("MailSettings"));
+builder.Services.AddTransient<IEmailService, EmailService>();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -26,6 +25,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<IdentityOptions>(
     opts => opts.SignIn.RequireConfirmedEmail = true
     );
+builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
+
 
 
 var contextFactory = new MedicalEquipmentSupplySystemContextFactory();
@@ -34,6 +35,7 @@ var context = contextFactory.CreateDbContext(new string[] { connectionString });
 
 var supplyCompanyRepository = new MedicalEquipmentSupplySystem.DataAccess.Repository.SupplyCompanyRepository(context);
 var userRepository = new MedicalEquipmentSupplySystem.DataAccess.Repository.UserRepository(context);
+
 
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ISupplyCompanyService>(_ => new SupplyCompanyService(supplyCompanyRepository));

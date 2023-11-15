@@ -8,8 +8,6 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Model
 {
     public class CompanyAdministrator : User
     {
-        public CompanyAdministrator() => this.Role = UserRole.CompanyAdministrator;
-
         public int? SupplyCompanyId { get; set; }
 
     }

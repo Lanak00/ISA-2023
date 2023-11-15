@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
 {
     [DbContext(typeof(MedicalEquipmentSupplySystemDbContext))]
-    [Migration("20231107075708_InitialMigration")]
+    [Migration("20231115141156_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

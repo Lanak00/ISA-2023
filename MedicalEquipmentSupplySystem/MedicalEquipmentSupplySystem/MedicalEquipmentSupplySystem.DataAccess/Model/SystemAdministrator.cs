@@ -8,7 +8,6 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Model
 {
     public class SystemAdministrator : User
     {
-        public SystemAdministrator() => this.Role = UserRole.SystemAdministrator;
-        
+
     }
 }

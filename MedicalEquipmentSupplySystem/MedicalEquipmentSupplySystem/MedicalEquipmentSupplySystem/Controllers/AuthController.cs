@@ -1,9 +1,10 @@
-﻿using MedicalEquipmentSupplySystem.BussinessLogic.DTO.HospitalWorker;
+﻿using MailKit;
+using MedicalEquipmentSupplySystem.BussinessLogic.DTO;
+using MedicalEquipmentSupplySystem.BussinessLogic.DTO.HospitalWorker;
 using MedicalEquipmentSupplySystem.BussinessLogic.Interfaces;
 using MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth;
-using Microsoft.AspNetCore.Identity;
+using MedicalEquipmentSupplySystem.BussinessLogic.Services.Email;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace MedicalEquipmentSupplySystem.API.Controllers
 {
@@ -11,16 +12,15 @@ namespace MedicalEquipmentSupplySystem.API.Controllers
     [Route("auth")]
     public class AuthController : ControllerBase
     {
-        private IConfiguration _config;
+        private IConfiguration _configuration;
         private readonly IAuthService _authService;
         private readonly IEmailService _emailService;
 
-        public AuthController(IConfiguration config, IAuthService authService, IEmailService emailService)
+        public AuthController(IConfiguration configuration, IAuthService authService, IEmailService emailService)
         {
-            _config = config;
+            _configuration = configuration;
             _authService = authService;
             _emailService = emailService;
-
         }
 
         [HttpPost("register")]
@@ -35,33 +35,23 @@ namespace MedicalEquipmentSupplySystem.API.Controllers
 
 
             return BadRequest("User already exists");
+        }
+
+        [HttpPost("send")]
+        public async Task<IActionResult> SendEmail([FromForm] EmailRequest request)
+        {
+            try
+            {
+                _emailService.SendEmail(request);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
 
         }
 
-
-
-      /*  [HttpGet("ConfirmEmail")]
-        public async Task<IActionResult> ConfirmEmail(string token, string email) 
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user != null)
-            {
-                var result = await _userManager.ConfirmEmailAsync(user, token);
-                if (result.Succeeded) 
-                {
-                    return StatusCode(StatusCodes.Status200OK,
-                        new Response { Status = "Success", Message = "Email Verified Successfully" });
-                }
-            }
-            return StatusCode(StatusCodes.Status500InternalServerError,
-                new Response { Status = "Err0r", Message = "This User does not exist" });
-        }*/
-
     }
 
-    public class Response
-    {
-        public string Status { get; set; }
-        public string Message { get; set; }
-    }
 }
