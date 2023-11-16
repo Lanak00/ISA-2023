@@ -58,7 +58,9 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Gender = table.Column<int>(type: "int", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
-                    IsValidated = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsValidated = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    VerificationToken = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {

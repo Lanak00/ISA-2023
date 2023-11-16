@@ -28,6 +28,7 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Model
         public Gender Gender { get; set; }
         public UserRole Role { get; set; }
         public bool IsValidated { get; set; }
+        public string? VerificationToken { get; set; }
 
     }
 }

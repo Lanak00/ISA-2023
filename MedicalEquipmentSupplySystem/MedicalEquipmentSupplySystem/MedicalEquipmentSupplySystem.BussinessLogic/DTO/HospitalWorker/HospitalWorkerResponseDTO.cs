@@ -18,6 +18,7 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.DTO.HospitalWorker
         public string Gender { get; set; }
         public string Company { get; set; }
         public int Penalties { get; set; }
+        public bool IsVerified { get; set; }
 
     }
 }

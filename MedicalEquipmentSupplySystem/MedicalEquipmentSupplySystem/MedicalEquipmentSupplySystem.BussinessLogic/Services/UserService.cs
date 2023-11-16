@@ -31,7 +31,8 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
                 Country = hospitalWorker.Country,
                 Gender = hospitalWorker.Gender.ToString(),
                 Company = hospitalWorker.Company,
-                Penalties = hospitalWorker.Penalties
+                Penalties = hospitalWorker.Penalties,
+                IsVerified = hospitalWorker.IsValidated
             };
         }
     }

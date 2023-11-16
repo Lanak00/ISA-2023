@@ -15,18 +15,19 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.DTO.HospitalWorker
 
     public class HospitalWorkerRegisterDTO
     {
-        [Required(ErrorMessage ="First Name is Required")]
-        public string FirstName { get; set; }
-
-        [Required(ErrorMessage = "Last Name is Required")]
-        public string LastName { get; set; }
 
         [EmailAddress]
         [Required(ErrorMessage ="Email is Required")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Password is Required")]
-        public string Password { get; set; }    
+        public string Password { get; set; }
+
+        [Required, Compare("Password")]
+        public string ConfirmPassword { get; set; }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
         public string Country { get; set; }

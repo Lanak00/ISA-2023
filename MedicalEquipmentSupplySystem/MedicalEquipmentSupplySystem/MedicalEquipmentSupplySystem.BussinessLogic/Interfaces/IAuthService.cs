@@ -12,5 +12,7 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Interfaces
     public interface IAuthService
     {
         public Register RegisterHospitalWorker(HospitalWorkerRegisterDTO user);
+        public bool VerifyUser(string token);
+        public string GetToken(string email);
     }
 }

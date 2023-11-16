@@ -158,6 +158,9 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
+                    b.Property<string>("VerificationToken")
+                        .HasColumnType("longtext");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users", (string)null);

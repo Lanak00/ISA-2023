@@ -1,4 +1,5 @@
-﻿using MedicalEquipmentSupplySystem.BussinessLogic.DTO.HospitalWorker;
+﻿using MedicalEquipmentSupplySystem.BussinessLogic.DTO;
+using MedicalEquipmentSupplySystem.BussinessLogic.DTO.HospitalWorker;
 using MedicalEquipmentSupplySystem.BussinessLogic.Interfaces;
 using MedicalEquipmentSupplySystem.DataAccess.Model;
 using MedicalEquipmentSupplySystem.DataAccess.Repository;
@@ -53,12 +54,40 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth
                 Gender = (DataAccess.Model.Gender)user.Gender,
                 IsValidated = false,
                 Company = user.Company,
-                Role = 0
+                Role = 0,
+                VerificationToken = CreateRandomToken()
             };
 
             var id = _userRepository.AddHospitalWorker(hospitalWorker);
             return new Register() { RegisterResult = RegisterResult.Success, Id = id };
         }
-        
+
+        public bool VerifyUser(string token)
+        {
+            var user = _userRepository.GetByCondition(x => x.VerificationToken == token).FirstOrDefault();
+
+            if (user == null)
+            {
+                return false;
+            }
+            else {
+                user.IsValidated = true;
+                _userRepository.Update(user);
+                return true;
+            }
+        }
+
+        public string GetToken(string email)
+        {
+            var user = _userRepository.GetByCondition(x => x.Email == email).FirstOrDefault();
+            return user.VerificationToken;
+        }
+
+        private string CreateRandomToken()
+        {
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        }
+
+
     }
 }
