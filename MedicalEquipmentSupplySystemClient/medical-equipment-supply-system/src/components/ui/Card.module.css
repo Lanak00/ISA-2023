@@ -1,0 +1,9 @@
+.card {
+    background-color: transparent;
+    border-radius: 0px;
+    box-shadow: 0 2px 8px rgba(0, 0.5, 0, 0.5);
+  }
+
+.uibackground {
+  background-color: whitesmoke;
+}

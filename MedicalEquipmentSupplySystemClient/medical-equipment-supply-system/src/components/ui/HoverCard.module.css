@@ -1,0 +1,10 @@
+.card {
+    background-color: transparent;
+    border-radius: 0px;
+    box-shadow: 0 2px 8px rgba(0, 0.5, 0, 0.5);
+  }
+  .card:hover,
+  .card:active,
+  .card:active {
+    background-color: #272727;
+  }
