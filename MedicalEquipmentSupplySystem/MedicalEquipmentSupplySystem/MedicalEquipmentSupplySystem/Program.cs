@@ -27,21 +27,20 @@ builder.Services.Configure<IdentityOptions>(
     );
 builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
 
-
-
 var contextFactory = new MedicalEquipmentSupplySystemContextFactory();
 string connectionString = "server=localhost;database=medicalequipmentsupplysystem;uid=root;pwd=root;Old Guids=true";
 var context = contextFactory.CreateDbContext(new string[] { connectionString });
 
 var supplyCompanyRepository = new MedicalEquipmentSupplySystem.DataAccess.Repository.SupplyCompanyRepository(context);
 var userRepository = new MedicalEquipmentSupplySystem.DataAccess.Repository.UserRepository(context);
+var equipmentRepository = new MedicalEquipmentSupplySystem.DataAccess.Repository.EquipmentRepository(context);
 
 
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ISupplyCompanyService>(_ => new SupplyCompanyService(supplyCompanyRepository));
 builder.Services.AddScoped<IUserService>(_ => new UserService(userRepository));
 builder.Services.AddScoped<IAuthService>(_ => new AuthService(userRepository));
-
+builder.Services.AddScoped<IEquipmentService>(_ => new EquipmentService(equipmentRepository));
 
 var app = builder.Build();
 

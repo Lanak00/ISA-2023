@@ -1,10 +1,10 @@
 INSERT INTO users VALUES
-(1, 'Lana', 'Kovacevic', 'kovaceviclana2501@gmail.com', 'pass123', 'Blagoja Parovica 92', 'Gajdobra', 'Serbia', 1, 0, true),
-(2, 'Nemanja', 'Kovacevic', 'kovac@gmail.com', 'pass123', 'Blagoja Parovica 92', 'Gajdobra', 'Serbia', 0, 2, true),
-(3, 'Stefan', 'Panzalovic', 'panzalpc@gmail.com', 'pass123', 'Kisacka 27', 'Novi Sad', 'Serbia', 0, 1, true),
-(4, 'Mitar', 'Miric', 'mitric@gmail.com', 'pass123', 'Blagoja Parovica 3', 'Gajdobra', 'Serbia', 0, 2, true),
-(5, 'Petar', 'Petrovic', 'ppet@gmail.com', 'pass123', 'Bulevar Evrope 55', 'Novi Sad', 'Serbia', 0, 2, true),
-(6, 'Marija', 'Markovic', 'mara@gmail.com', 'pass123', 'Kralja Petra I 7a', 'Novi Sad', 'Serbia', 1, 2, true);
+(1, 'Lana', 'Kovacevic', 'kovaceviclana2501@gmail.com', 'pass123', 'Blagoja Parovica 92', 'Gajdobra', 'Serbia', 1, 0, true, ' '),
+(2, 'Nemanja', 'Kovacevic', 'kovac@gmail.com', 'pass123', 'Blagoja Parovica 92', 'Gajdobra', 'Serbia', 0, 2, true, ' '),
+(3, 'Stefan', 'Panzalovic', 'panzalpc@gmail.com', 'pass123', 'Kisacka 27', 'Novi Sad', 'Serbia', 0, 1, true, ' '),
+(4, 'Mitar', 'Miric', 'mitric@gmail.com', 'pass123', 'Blagoja Parovica 3', 'Gajdobra', 'Serbia', 0, 2, true, ' '),
+(5, 'Petar', 'Petrovic', 'ppet@gmail.com', 'pass123', 'Bulevar Evrope 55', 'Novi Sad', 'Serbia', 0, 2, true, ' '),
+(6, 'Marija', 'Markovic', 'mara@gmail.com', 'pass123', 'Kralja Petra I 7a', 'Novi Sad', 'Serbia', 1, 2, true, ' ');
 
 INSERT INTO hospitalworkers VALUES (1, "Hospital 1", 0);
 
@@ -58,3 +58,7 @@ ON users.Id = hospitalworkers.Id;
 SELECT * FROM 
 equipment INNER JOIN equipmentreservation
 ON equipment.Id = equipmentreservation.EquipmentId; 
+
+INSERT INTO users VALUES
+(7, 'Working', 'Worker', 'kovaceviclana2501@gmail.com', 'pass123', 'Blagoja Parovica 92', 'Gajdobra', 'Serbia', 1, 0, true, " ");
+INSERT INTO hospitalworkers VALUES (7, "Hospital 2", 0);

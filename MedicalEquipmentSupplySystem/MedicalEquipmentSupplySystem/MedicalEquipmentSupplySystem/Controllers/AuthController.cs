@@ -51,7 +51,6 @@ namespace MedicalEquipmentSupplySystem.API.Controllers
                 {
                     throw;
                 }
-
         }
 
         [HttpPost("verify")]
@@ -80,7 +79,6 @@ namespace MedicalEquipmentSupplySystem.API.Controllers
             {
                 throw;
             }
-
         }*/
 
     }
