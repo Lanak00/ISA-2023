@@ -5,6 +5,7 @@ import {BrowserRouter} from 'react-router-dom';
 import './index.css';
 import App from './App';
 
+const cors = require('cors');
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
