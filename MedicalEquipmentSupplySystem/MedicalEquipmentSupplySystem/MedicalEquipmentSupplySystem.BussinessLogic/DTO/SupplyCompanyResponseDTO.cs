@@ -12,7 +12,7 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.DTO
         public string Name { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
         public double Rating { get; set; }
         public string Description { get; set; }
     }

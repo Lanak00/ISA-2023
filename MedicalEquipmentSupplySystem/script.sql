@@ -62,3 +62,8 @@ ON equipment.Id = equipmentreservation.EquipmentId;
 INSERT INTO users VALUES
 (7, 'Working', 'Worker', 'kovaceviclana2501@gmail.com', 'pass123', 'Blagoja Parovica 92', 'Gajdobra', 'Serbia', 1, 0, true, " ");
 INSERT INTO hospitalworkers VALUES (7, "Hospital 2", 0);
+
+UPDATE supplycompanies  SET Image = 'https://upload.wikimedia.org/wikipedia/commons/3/3d/Hartford_Hospital_main_entrance.JPG' WHERE Id = 1;
+UPDATE supplycompanies  SET Image = 'https://images.squarespace-cdn.com/content/v1/5be259959772ae19d121a40d/1550514525411-IJ5Q9G5OZ7SOTZPCNHR4/0-Hero.jpg?format=2500w' WHERE Id = 2;
+UPDATE supplycompanies  SET Image = 'https://dbia.org/wp-content/uploads/2020/07/Sharp-Santee-Medical-Office-Bldg-Gallery2-1536x782.jpg' WHERE Id = 3;
+UPDATE supplycompanies  SET Image = 'https://wolfmediausa.com/wp-content/uploads/2018/07/Outpatient-HampshireCos-NJ.jpg' WHERE Id = 4;

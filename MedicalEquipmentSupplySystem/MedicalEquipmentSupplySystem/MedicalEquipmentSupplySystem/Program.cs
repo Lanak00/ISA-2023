@@ -9,9 +9,14 @@ using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors();
+
 var config = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json", optional: false)
         .Build();
+
+var mySpecificOrigins = "_mySpecificOrigins";
+
 
 //Add email config
 builder.Services.Configure<EmailConfiguration>(config.GetSection("MailSettings"));
@@ -52,6 +57,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
 
 app.UseHttpsRedirection();
 

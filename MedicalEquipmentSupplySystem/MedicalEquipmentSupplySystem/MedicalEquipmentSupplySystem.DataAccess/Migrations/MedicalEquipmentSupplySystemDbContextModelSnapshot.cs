@@ -97,9 +97,9 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<byte[]>("Image")
+                    b.Property<string>("Image")
                         .IsRequired()
-                        .HasColumnType("longblob");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .IsRequired()

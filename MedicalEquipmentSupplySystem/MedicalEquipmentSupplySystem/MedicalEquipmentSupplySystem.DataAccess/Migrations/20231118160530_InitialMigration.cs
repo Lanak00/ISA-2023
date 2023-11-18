@@ -25,7 +25,8 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     City = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Image = table.Column<byte[]>(type: "longblob", nullable: false),
+                    Image = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Rating = table.Column<double>(type: "double", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
 {
     [DbContext(typeof(MedicalEquipmentSupplySystemDbContext))]
-    [Migration("20231115231756_InitialMigration")]
+    [Migration("20231118160530_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,9 +99,9 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<byte[]>("Image")
+                    b.Property<string>("Image")
                         .IsRequired()
-                        .HasColumnType("longblob");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .IsRequired()
