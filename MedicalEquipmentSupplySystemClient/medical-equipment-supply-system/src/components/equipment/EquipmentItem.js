@@ -9,8 +9,8 @@ function EquipmentItem(props) {
                 <div className={classes.allcont}>
                     <div className={classes.content}>
                         <h2>{props.name}</h2>
-                        <h3>{props.type}</h3>
-                        <h4>{props.description}</h4>
+                        <h3>Type: {props.type}</h3>
+                        <p>Description: {props.description}</p>
                     </div>
                 </div>
             </Card>
