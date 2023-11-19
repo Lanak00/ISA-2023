@@ -1,7 +1,7 @@
 .item {
     margin: 1rem 0;
     width: 30rem;
-    background-color: rgb(70, 70, 70);
+    background-color:  transparent;
   }
 
 
@@ -20,15 +20,15 @@
   
 .content h2 {
     font-size: 1.5rem;
-    color: rgb(196, 196, 196);
+    color: rgb(245, 245, 245);
     padding: 0.5rem;
     margin: 1rem;
     font-weight: normal;
   }
 
 .content h3 {
-    font-size: 1.3rem;
-    color: rgb(30, 30, 30);
+    font-size: 1.2rem;
+    color: rgb(196, 196, 196);
     padding: 0.5rem;
     margin: 1rem;
     font-weight: lighter;
@@ -36,8 +36,8 @@
   }
 
 .content p {
-  font-size: 1.3rem;
-  color: rgb(30, 30, 30);
+  font-size: 1.2rem;
+  color: rgb(196, 196, 196);
   padding: 0.5rem;
   margin: 1rem;
   font-weight: lighter;
