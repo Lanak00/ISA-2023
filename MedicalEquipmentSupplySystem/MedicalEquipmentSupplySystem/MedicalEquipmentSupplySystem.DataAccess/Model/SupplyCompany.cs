@@ -12,5 +12,6 @@
 
         public IEnumerable<Equipment> equipmentList { get; set; }
         public IEnumerable<CompanyAdministrator> companyAdministrators { get; set; } 
+        public IEnumerable<Complaint> Complaints { get; set; }
     }
 }

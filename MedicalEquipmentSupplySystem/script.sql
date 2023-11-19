@@ -40,16 +40,16 @@ INSERT INTO equipment VALUES
 (17, 'Anestesia machine', 'Surgical' , 'This is a anestesia machine', 4);
 
 INSERT INTO equipmentreservation VALUES
-(1, '2023-05-20 10:00:00', 48, 13, 1, 5),
-(2, '2023-07-05 08:30:00', 72, 5, 1, 2),
-(3, '2023-07-17 13:15:20', 48, 1, 1, 2),
+(1, '2023-05-20 10:00:00', 48, 13, null, 5),
+(2, '2023-07-05 08:30:00', 72, 5, null, 2),
+(3, '2023-07-17 13:15:20', 48, 1, null, 2),
 (4, '2023-10-03 08:00:00', 48, 12, 1, 5),
-(5, '2023-10-10 10:30:00', 24, 9, 1, 4),
+(5, '2023-10-10 10:30:00', 24, 9, null, 4),
 (6, '2023-12-20 10:00:00', 72, 6, 1, 2),
-(7, '2023-12-25 11:20:30', 24, 13, 1, 5),
-(8, '2023-01-25 08:20:15', 24, 11, 1, 4),
+(7, '2023-12-25 11:20:30', 24, 13, null, 5),
+(8, '2023-01-25 08:20:15', 24, 11, null, 4),
 (9, '2023-12-27 11:20:00', 72, 12, 1, 5),
-(10, '2023-03-08 08:00:00', 48, 3, 1, 2);
+(10, '2023-03-08 08:00:00', 48, 3, null, 2);
 
 SELECT * FROM 
 users INNER JOIN hospitalworkers
@@ -67,3 +67,8 @@ UPDATE supplycompanies  SET Image = 'https://upload.wikimedia.org/wikipedia/comm
 UPDATE supplycompanies  SET Image = 'https://images.squarespace-cdn.com/content/v1/5be259959772ae19d121a40d/1550514525411-IJ5Q9G5OZ7SOTZPCNHR4/0-Hero.jpg?format=2500w' WHERE Id = 2;
 UPDATE supplycompanies  SET Image = 'https://dbia.org/wp-content/uploads/2020/07/Sharp-Santee-Medical-Office-Bldg-Gallery2-1536x782.jpg' WHERE Id = 3;
 UPDATE supplycompanies  SET Image = 'https://wolfmediausa.com/wp-content/uploads/2018/07/Outpatient-HampshireCos-NJ.jpg' WHERE Id = 4;
+
+select * from users;
+
+INSERT INTO complaint VALUES (3, 'complaint body content', 1, null, 2);
+INSERT INTO complaint VALUES (2, 'complaint body content', 1, 2, null);

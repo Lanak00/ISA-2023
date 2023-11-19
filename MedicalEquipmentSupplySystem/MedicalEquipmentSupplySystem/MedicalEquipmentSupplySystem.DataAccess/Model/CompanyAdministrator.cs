@@ -10,5 +10,7 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Model
     {
         public int? SupplyCompanyId { get; set; }
 
+        public IEnumerable<Complaint> Complaints { get; set; }
+
     }
 }

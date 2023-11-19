@@ -11,7 +11,7 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Model
         public string Company { get; set; }
         public int Penalties { get; set; } = 0;
         public IEnumerable<EquipmentReservation> EquipmentReservationList { get; set; }
-
+        public IEnumerable<Complaint> Complaints { get; set; }
      
     }
 }

@@ -85,7 +85,7 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth
 
         private string CreateRandomToken()
         {
-            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
         }
 
 

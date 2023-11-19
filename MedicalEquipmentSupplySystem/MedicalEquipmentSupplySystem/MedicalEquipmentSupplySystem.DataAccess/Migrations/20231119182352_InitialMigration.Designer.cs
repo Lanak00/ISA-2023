@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
 {
     [DbContext(typeof(MedicalEquipmentSupplySystemDbContext))]
-    [Migration("20231118160530_InitialMigration")]
+    [Migration("20231119182352_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,36 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.Complaint", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CompanyAdministratorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HospitalWorkerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SupplyCompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("body")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("CompanyAdministratorId");
+
+                    b.HasIndex("HospitalWorkerId");
+
+                    b.HasIndex("SupplyCompanyId");
+
+                    b.ToTable("Complaint");
+                });
 
             modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.Equipment", b =>
                 {
@@ -67,7 +97,7 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                     b.Property<int>("EquipmentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("HospitalWorkerId")
+                    b.Property<int?>("HospitalWorkerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -201,6 +231,29 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                     b.ToTable("SystemAdministrators", (string)null);
                 });
 
+            modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.Complaint", b =>
+                {
+                    b.HasOne("MedicalEquipmentSupplySystem.DataAccess.Model.CompanyAdministrator", "CompanyAdministrator")
+                        .WithMany("Complaints")
+                        .HasForeignKey("CompanyAdministratorId");
+
+                    b.HasOne("MedicalEquipmentSupplySystem.DataAccess.Model.HospitalWorker", "HospitalWorker")
+                        .WithMany("Complaints")
+                        .HasForeignKey("HospitalWorkerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedicalEquipmentSupplySystem.DataAccess.Model.SupplyCompany", "SupplyCompany")
+                        .WithMany("Complaints")
+                        .HasForeignKey("SupplyCompanyId");
+
+                    b.Navigation("CompanyAdministrator");
+
+                    b.Navigation("HospitalWorker");
+
+                    b.Navigation("SupplyCompany");
+                });
+
             modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.Equipment", b =>
                 {
                     b.HasOne("MedicalEquipmentSupplySystem.DataAccess.Model.SupplyCompany", "SupplyCompany")
@@ -228,9 +281,7 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
 
                     b.HasOne("MedicalEquipmentSupplySystem.DataAccess.Model.HospitalWorker", "HospitalWorker")
                         .WithMany("EquipmentReservationList")
-                        .HasForeignKey("HospitalWorkerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HospitalWorkerId");
 
                     b.Navigation("CompanyAdministrator");
 
@@ -277,13 +328,22 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
 
             modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.SupplyCompany", b =>
                 {
+                    b.Navigation("Complaints");
+
                     b.Navigation("companyAdministrators");
 
                     b.Navigation("equipmentList");
                 });
 
+            modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.CompanyAdministrator", b =>
+                {
+                    b.Navigation("Complaints");
+                });
+
             modelBuilder.Entity("MedicalEquipmentSupplySystem.DataAccess.Model.HospitalWorker", b =>
                 {
+                    b.Navigation("Complaints");
+
                     b.Navigation("EquipmentReservationList");
                 });
 #pragma warning restore 612, 618

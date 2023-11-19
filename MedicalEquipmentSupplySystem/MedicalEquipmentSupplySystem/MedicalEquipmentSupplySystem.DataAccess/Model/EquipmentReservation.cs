@@ -13,8 +13,8 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Model
         public int Duration { get; set; }
         public Equipment Equipment { get; set; }
         public int EquipmentId { get; set; }
-        public HospitalWorker HospitalWorker { get; set; }
-        public int HospitalWorkerId { get; set; }
+        public HospitalWorker? HospitalWorker { get; set; } = null;
+        public int? HospitalWorkerId { get; set; } 
         public CompanyAdministrator CompanyAdministrator { get; set; }
         public int CompanyAdministratorId { get; set; }
     }

@@ -159,6 +159,40 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Complaint",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    body = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    HospitalWorkerId = table.Column<int>(type: "int", nullable: false),
+                    CompanyAdministratorId = table.Column<int>(type: "int", nullable: true),
+                    SupplyCompanyId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Complaint", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Complaint_CompanyAdministrators_CompanyAdministratorId",
+                        column: x => x.CompanyAdministratorId,
+                        principalTable: "CompanyAdministrators",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Complaint_HospitalWorkers_HospitalWorkerId",
+                        column: x => x.HospitalWorkerId,
+                        principalTable: "HospitalWorkers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Complaint_SupplyCompanies_SupplyCompanyId",
+                        column: x => x.SupplyCompanyId,
+                        principalTable: "SupplyCompanies",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "EquipmentReservation",
                 columns: table => new
                 {
@@ -167,7 +201,7 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                     DateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
                     EquipmentId = table.Column<int>(type: "int", nullable: false),
-                    HospitalWorkerId = table.Column<int>(type: "int", nullable: false),
+                    HospitalWorkerId = table.Column<int>(type: "int", nullable: true),
                     CompanyAdministratorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -189,14 +223,28 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
                         name: "FK_EquipmentReservation_HospitalWorkers_HospitalWorkerId",
                         column: x => x.HospitalWorkerId,
                         principalTable: "HospitalWorkers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CompanyAdministrators_SupplyCompanyId",
                 table: "CompanyAdministrators",
+                column: "SupplyCompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Complaint_CompanyAdministratorId",
+                table: "Complaint",
+                column: "CompanyAdministratorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Complaint_HospitalWorkerId",
+                table: "Complaint",
+                column: "HospitalWorkerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Complaint_SupplyCompanyId",
+                table: "Complaint",
                 column: "SupplyCompanyId");
 
             migrationBuilder.CreateIndex(
@@ -222,6 +270,9 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Complaint");
+
             migrationBuilder.DropTable(
                 name: "EquipmentReservation");
 
