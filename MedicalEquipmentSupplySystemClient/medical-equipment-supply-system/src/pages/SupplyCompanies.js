@@ -20,7 +20,6 @@ useEffect(() => {
     });
 }, []);
 
-   
     if(isLoading) {
         return (
             <section>
@@ -32,7 +31,7 @@ useEffect(() => {
     return (
         <section>
           <SupplyCompanyList companies = {loadedCompanies}/>
-          
+  
         </section>
     );
 }

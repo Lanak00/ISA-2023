@@ -1,11 +1,15 @@
 import classes from './SupplyCompanyItem.module.css'
 import HoverCard from '../ui/HoverCard';
+import { Link } from 'react-router-dom';
 
 function SupplyCompanyItem(props) {
     return (
         <li className={classes.item}>
             <button>
                 <HoverCard>
+                <Link to= {{
+                    pathname:`/companyDetails/${props.id}`,
+                }}>
                     <div className={classes.allcont}>
                         <div className={classes.image}>
                             <img src={props.image} alt={props.name}/>
@@ -16,6 +20,7 @@ function SupplyCompanyItem(props) {
                             <p>{props.description}</p>
                         </div>
                     </div>
+                    </Link>
                 </HoverCard>
             </button>
         </li>
