@@ -88,6 +88,42 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
         }
 
+        public bool Authenticate(string email, string password)
+        {
+            var user = _userRepository.GetByCondition(x => x.Email == email).FirstOrDefault();
 
+            if (user == null)
+            {
+                return false; // User with given email doesn't exist
+            }
+
+            if (PasswordStorage.VerifyPassword(password, user.Password))
+            {
+                return true; // Authentication successful
+            }
+
+            return false; // Password verification failed
+        }
+
+
+        public UserDetailsDTO GetUserDetailsByEmail(string email)
+        {
+            var user = _userRepository.GetByCondition(x => x.Email == email).FirstOrDefault();
+
+            if (user == null)
+            {
+                return null; // throw exception
+            }
+
+            return new UserDetailsDTO
+            {
+                Id = user.Id,
+                Role = (DTO.UserRole)user.Role,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
+        }
     }
+
 }
+

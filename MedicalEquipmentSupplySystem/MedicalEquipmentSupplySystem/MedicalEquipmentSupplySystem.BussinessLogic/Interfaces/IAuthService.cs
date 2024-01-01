@@ -14,5 +14,7 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Interfaces
         public Register RegisterHospitalWorker(HospitalWorkerRegisterDTO user);
         public bool VerifyUser(string token);
         public string GetToken(string email);
+        public bool Authenticate(string email, string password);
+        public UserDetailsDTO GetUserDetailsByEmail(string email);
     }
 }

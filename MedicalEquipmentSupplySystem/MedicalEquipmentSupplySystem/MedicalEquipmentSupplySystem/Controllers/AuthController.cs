@@ -6,7 +6,11 @@ using MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth;
 using MedicalEquipmentSupplySystem.BussinessLogic.Services.Email;
 using MedicalEquipmentSupplySystem.DataAccess.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Org.BouncyCastle.Asn1.Ocsp;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace MedicalEquipmentSupplySystem.API.Controllers
 {
@@ -28,29 +32,29 @@ namespace MedicalEquipmentSupplySystem.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(HospitalWorkerRegisterDTO user)
         {
-             var result = _authService.RegisterHospitalWorker(user);
+            var result = _authService.RegisterHospitalWorker(user);
 
-             if (result.RegisterResult != RegisterResult.Success)
-             {
+            if (result.RegisterResult != RegisterResult.Success)
+            {
                 return BadRequest("User already exists");
-             }
+            }
 
-            
 
-             var request = new EmailRequest();
-             request.ToEmail = user.Email;
-             request.Subject = "Registration verification";
-             request.Body = _authService.GetToken(user.Email);
-             
-                try
-                {
-                    _emailService.SendEmail(request);
-                    return Created("auth/register/", new { id = result.Id.ToString() });
-                }
-                catch (Exception ex)
-                {
-                    throw;
-                }
+
+            var request = new EmailRequest();
+            request.ToEmail = user.Email;
+            request.Subject = "Registration verification";
+            request.Body = _authService.GetToken(user.Email);
+
+            try
+            {
+                _emailService.SendEmail(request);
+                return Created("auth/register/", new { id = result.Id.ToString() });
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         [HttpPost("verify")]
@@ -58,7 +62,7 @@ namespace MedicalEquipmentSupplySystem.API.Controllers
         {
             if (!_authService.VerifyUser(token))
             {
-                return BadRequest("Invalid Token");            
+                return BadRequest("Invalid Token");
             }
 
             return Ok("User verified! :)");
@@ -66,20 +70,41 @@ namespace MedicalEquipmentSupplySystem.API.Controllers
 
         }
 
-
-       /* [HttpPost("send")]
-        public async Task<IActionResult> SendEmail([FromForm] EmailRequest request)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDTO login)
         {
-            try
+            bool isAuthenticated = _authService.Authenticate(login.Email, login.Password);
+
+            if (!isAuthenticated)
             {
-                _emailService.SendEmail(request);
-                return Ok();
+                return Unauthorized("Invalid credentials");
             }
-            catch (Exception ex)
+
+            var userDetails = _authService.GetUserDetailsByEmail(login.Email);
+
+            var claims = new List<Claim>
             {
-                throw;
-            }
-        }*/
+                new Claim(ClaimTypes.NameIdentifier, userDetails.Id.ToString()), 
+                new Claim(ClaimTypes.Role, userDetails.Role.ToString()), 
+                new Claim("FirstName", userDetails.FirstName), 
+                new Claim("LastName", userDetails.LastName) 
+            };
+
+            // Token configuration
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var token = new JwtSecurityToken(
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddDays(Convert.ToDouble(_configuration["Jwt:ExpiresInDays"])),
+                signingCredentials: credentials
+            );
+
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return Ok(new { Token = tokenString });
+        }
 
     }
 
