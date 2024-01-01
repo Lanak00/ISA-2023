@@ -1,0 +1,13 @@
+.header {
+    height: 2rem;
+    background-color: transparent;
+    margin-top: auto;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+
+.input {
+  background-color: rgb(255, 255, 255);
+  color: rgb(25, 25, 25);
+  margin-left: 0.2rem;
+  height: 1.5rem;
+  }

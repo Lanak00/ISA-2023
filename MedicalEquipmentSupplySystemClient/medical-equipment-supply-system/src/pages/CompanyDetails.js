@@ -13,8 +13,7 @@ function CompanyDetailsPage() {
     useEffect( () => {
         setIsLoading(true);
         fetch(
-           
-            'https://localhost:7260/equipment?supplyCompanyId='+ params.id // eslint-disable-line
+            `https://localhost:7260/equipment?supplyCompanyId=${params.id}`
         ).then( (response) => {
             return response.json();
         }).then((data) => {

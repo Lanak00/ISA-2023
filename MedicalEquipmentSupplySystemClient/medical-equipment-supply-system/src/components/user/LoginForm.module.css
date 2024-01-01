@@ -1,0 +1,83 @@
+.h1 {
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: lighter;
+    padding-top: 3rem;
+    font-size: 35px;
+}
+.form {
+    padding-left: 20rem;
+    padding-right: 20rem;
+    padding-top: 0.5rem;
+    padding-bottom: 2rem;
+  }
+  
+.control {
+    margin-bottom: 0.5rem;
+  }
+
+.gendercontrol {
+    margin-bottom: 0.5rem;
+    align-content: flex-end;
+  }
+  
+.control label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: rgb(244, 244, 244);
+    text-shadow: #262626;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  
+.control input,
+
+.control textarea {
+    display: block;
+    font: inherit;
+    background-color: #f0efef;
+    border: 2px solid #3d3c3c;
+    padding: 0.25rem;
+    width: 100%;
+  }
+
+.regdivlink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 2rem;
+}
+
+.regdivlink h4 {
+    margin: 5px;
+    font-weight: lighter;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.regdivlink a {
+    color: rgb(107, 107, 185);
+  }
+  
+.actions {
+    margin-top: 1rem;
+    text-align: center;
+    padding-top: 1rem;
+  }
+  
+.actions button {
+    font: inherit;
+    cursor: pointer;
+    background-color: rgb(5, 80, 61);
+    color: #ccc;
+    padding: 0.5rem 1.5rem;
+    font-weight: bold;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  
+.actions button:hover,
+.actions button:active {
+    background-color: rgb(7, 99, 76);
+    border-color: #262626;
+  }
