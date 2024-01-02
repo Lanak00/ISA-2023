@@ -7,6 +7,7 @@ import classes from './LoginForm.module.css'
 function LoginForm(props) {
 
     const [isDisabled, setDisable] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
@@ -50,10 +51,10 @@ function LoginForm(props) {
         passwordInputRef.current.value = '';
         setDisable(false);
 
-        // Now you can redirect or perform other actions based on successful login
       } else {
         // Handle login failure
         console.error('Login failed');
+        setErrorMessage('Invalid username or password');
         setDisable(false);
       }
     } catch (error) {
@@ -74,6 +75,7 @@ function LoginForm(props) {
                     <div className={classes.control}>
                         <label htmlFor='password'>Password</label>
                         <input type="password" placeholder='Password' required id="password" ref={passwordInputRef}/>
+                        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                     </div>
                     <div className={classes.actions}>
                         <button disabled={isDisabled}>Log in</button>

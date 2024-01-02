@@ -3,10 +3,17 @@ import { useState } from 'react';
 
 import Card from '../ui/Card';
 import classes from './RegistrationForm.module.css'
+import { useNavigate } from 'react-router-dom';
 
 function RegistrationForm(props) {
 
     const [isDisabled, setDisable] = useState(false);
+    const [passwordsMatch, setPasswordsMatch] = useState(true);
+    const [showErrorPopup, setShowErrorPopup] = useState(false);
+
+
+
+    const navigate = useNavigate();
     
     const firstNameInputRef = useRef();
     const lastNameInputRef = useRef();
@@ -45,6 +52,27 @@ function RegistrationForm(props) {
 
         };
 
+        fetch('https://localhost:7260/auth/register', {
+            method: 'POST',
+            body: JSON.stringify(userData),
+            headers: {
+                'accept': '*/*',
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (!response.ok) {
+                // Handle error response
+                if (response.status === 400) {
+                        setShowErrorPopup(true);
+                        // Handle other error cases if needed
+                    };
+            } else {
+                navigate('/validate', { replace: true });
+            }
+        }).catch(error => {
+            console.error('Error during registration', error);
+        });
+
         emailInputRef.current.value = '';
         passwordInputRef.current.value = '';
         firstNameInputRef.current.value = '';
@@ -54,8 +82,17 @@ function RegistrationForm(props) {
         companyInputRef.current.value = '';
         confirmPasswordInputRef.current.value = '';
 
-        props.onRegistration(userData);
+    }
 
+    function confirmPwdBlurHandler() {
+        const enteredPassword = passwordInputRef.current.value;
+        const enteredConfirmPassword = confirmPasswordInputRef.current.value;
+
+        if (enteredPassword !== enteredConfirmPassword) {
+            setPasswordsMatch(false);
+        } else {
+            setPasswordsMatch(true);
+        }
     }
 
     return (
@@ -73,6 +110,12 @@ function RegistrationForm(props) {
                     <div className={classes.control}>
                         <label htmlFor='email'>Email</label>
                         <input type="email" placeholder='Email' required id="email" ref={emailInputRef}/>
+                        {showErrorPopup && (
+                            <div className={classes.popup}>
+                                 <p>User with this email already exists</p>
+                                 <button onClick={() => setShowErrorPopup(false)}>Close</button>
+                            </div>
+                        )}
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='password'>Password</label>
@@ -80,7 +123,13 @@ function RegistrationForm(props) {
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='cpassword'>Confirm Password</label>
-                        <input type="password" placeholder='Confirm Password' required id="cpassword" ref={confirmPasswordInputRef}/>
+                        <input
+                            type="password"
+                            placeholder='Confirm Password' 
+                            required id="cpassword" 
+                            ref={confirmPasswordInputRef}
+                            onBlur={confirmPwdBlurHandler}/>
+                         {!passwordsMatch && (<p style={{ color: 'red' }}>Passwords don't match</p>)}
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='address'>Address</label>
