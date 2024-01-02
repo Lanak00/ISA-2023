@@ -6,8 +6,8 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth
     class PasswordStorage
     {
         // These constants may be changed without breaking existing hashes.
-        public const int SALT_BYTES = 24;
-        public const int HASH_BYTES = 18;
+        public const int SALT_BYTES = 18;
+        public const int HASH_BYTES = 24;
         public const int PBKDF2_ITERATIONS = 64000;
 
         // These constants define the encoding and may not be changed.

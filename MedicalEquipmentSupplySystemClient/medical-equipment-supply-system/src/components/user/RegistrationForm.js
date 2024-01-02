@@ -45,6 +45,15 @@ function RegistrationForm(props) {
 
         };
 
+        emailInputRef.current.value = '';
+        passwordInputRef.current.value = '';
+        firstNameInputRef.current.value = '';
+        lastNameInputRef.current.value = '';
+        addressInputRef.current.value = '';
+        cityInputRef.current.value = '';
+        companyInputRef.current.value = '';
+        confirmPasswordInputRef.current.value = '';
+
         props.onRegistration(userData);
 
     }

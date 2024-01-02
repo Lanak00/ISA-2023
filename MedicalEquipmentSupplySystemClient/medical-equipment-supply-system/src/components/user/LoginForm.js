@@ -11,7 +11,7 @@ function LoginForm(props) {
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
 
-    function submitHandler(event) {
+    async function submitHandler(event) {
         event.preventDefault();
 
         setDisable(true);
@@ -24,8 +24,44 @@ function LoginForm(props) {
             password: enteredPassword,
         };
 
-        props.onRegistration(loginData);
-    }
+        console.log(loginData);
+
+        console.log(JSON.stringify(loginData));
+        try {
+        const response = await fetch(`https://localhost:7260/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const token = data.token;
+
+        console.log(token);
+      
+        // Save the token to local storage
+        localStorage.setItem('accessToken', token);
+
+        // Reset form and enable login button
+        emailInputRef.current.value = '';
+        passwordInputRef.current.value = '';
+        setDisable(false);
+
+        // Now you can redirect or perform other actions based on successful login
+      } else {
+        // Handle login failure
+        console.error('Login failed');
+        setDisable(false);
+      }
+    } catch (error) {
+      console.error('Error during login', error);
+      setDisable(false);
+    } }
+        
+    
 
     return (
         <Card>

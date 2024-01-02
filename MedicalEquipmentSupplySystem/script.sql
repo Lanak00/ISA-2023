@@ -68,7 +68,9 @@ UPDATE supplycompanies  SET Image = 'https://images.squarespace-cdn.com/content/
 UPDATE supplycompanies  SET Image = 'https://dbia.org/wp-content/uploads/2020/07/Sharp-Santee-Medical-Office-Bldg-Gallery2-1536x782.jpg' WHERE Id = 3;
 UPDATE supplycompanies  SET Image = 'https://wolfmediausa.com/wp-content/uploads/2018/07/Outpatient-HampshireCos-NJ.jpg' WHERE Id = 4;
 
-select * from users;
-
 INSERT INTO complaint VALUES (3, 'complaint body content', 1, null, 2);
 INSERT INTO complaint VALUES (2, 'complaint body content', 1, 2, null);
+
+select * from users;
+delete from users where id = 9;
+
