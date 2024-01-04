@@ -74,13 +74,17 @@ namespace MedicalEquipmentSupplySystem.API.Controllers
         public async Task<IActionResult> Login(LoginDTO login)
         {
             bool isAuthenticated = _authService.Authenticate(login.Email, login.Password);
+            var userDetails = _authService.GetUserDetailsByEmail(login.Email);
 
             if (!isAuthenticated)
             {
                 return Unauthorized("Invalid credentials");
             }
 
-            var userDetails = _authService.GetUserDetailsByEmail(login.Email);
+            if (!userDetails.IsVerified)
+            {
+                return Unauthorized("Email not verified");
+            }
 
             var claims = new List<Claim>
             {

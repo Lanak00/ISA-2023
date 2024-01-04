@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/ui/Card";
+import classes from "../components/user/MyProfile.module.css"
+
 
 function MyProfilePage() {
 
@@ -41,13 +43,16 @@ function MyProfilePage() {
     return (
         <Card>
             {userData ? (
-                <div>
+                <div className = {classes.content}>
                     <p>Name: {userData.firstName} {userData.lastName}</p>
                     <p>Email: {userData.email}</p>
                     <p>Address: {userData.address}, {userData.city}</p>
                     <p>User Role: {userData.role}</p>
-                    <p>Number of Penalties: {userData.penalties}</p>
-                    <button onClick={handleLogout}>Log out</button>
+                    <p>Penalties: {userData.penalties}</p>
+                    <div className = {classes.actions}>
+                        <button onClick={handleLogout}>Log out</button>
+                    </div>
+                    
                 </div>
             ) : (
                 <p>Loading user data...</p>

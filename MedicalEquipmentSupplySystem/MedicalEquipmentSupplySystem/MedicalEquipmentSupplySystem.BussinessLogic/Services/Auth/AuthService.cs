@@ -118,10 +118,26 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Auth
             return new UserDetailsDTO
             {
                 Id = user.Id,
-                Role = (DTO.UserRole)user.Role,
+                Role = getUserRole(user),
                 FirstName = user.FirstName,
-                LastName = user.LastName
+                LastName = user.LastName,
+                IsVerified = user.IsValidated
             };
+        }
+
+        private string getUserRole(User user)
+        {
+            switch (user.Role)
+            {
+                case (DataAccess.Model.UserRole)UserRole.HospitalWorker:
+                    return "HospitalWorker";
+                case (DataAccess.Model.UserRole)UserRole.CompanyAdministrator:
+                    return "CenterAdministrator";
+                case (DataAccess.Model.UserRole)UserRole.SystemAdministrator:
+                    return "SystemAdministrator";
+                default:
+                    return "Unknown Role";
+            }
         }
     }
 

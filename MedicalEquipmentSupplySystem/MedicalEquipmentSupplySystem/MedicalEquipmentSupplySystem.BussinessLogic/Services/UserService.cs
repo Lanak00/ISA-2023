@@ -54,11 +54,26 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
                     Address = user.Address,
                     City = user.City,
                     Email = user.Email,
-                    Role = (DTO.UserRole)user.Role,
+                    Role = getUserRole(user),
                     Penalties = p
                 };
             }
             else { return new UserDetailsDTO(); }
+        }
+
+        private string getUserRole(User user)
+        {
+            switch (user.Role)
+            {
+                case (DataAccess.Model.UserRole)UserRole.HospitalWorker:
+                    return "Hospital Worker";
+                case (DataAccess.Model.UserRole)UserRole.CompanyAdministrator:
+                    return "Center Administrator";
+                case (DataAccess.Model.UserRole)UserRole.SystemAdministrator:
+                    return "System Administrator";
+                default:
+                    return "Unknown Role";
+            }
         }
     }
 }

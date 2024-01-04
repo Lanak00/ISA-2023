@@ -1,5 +1,6 @@
 import {useRef} from 'react';
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 import Card from '../ui/Card';
 import classes from './LoginForm.module.css'
@@ -8,6 +9,7 @@ function LoginForm(props) {
 
     const [isDisabled, setDisable] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
     
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
@@ -50,7 +52,7 @@ function LoginForm(props) {
         emailInputRef.current.value = '';
         passwordInputRef.current.value = '';
         setDisable(false);
-
+        navigate('/');
       } else {
         // Handle login failure
         console.error('Login failed');
