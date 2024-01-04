@@ -12,5 +12,6 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Interfaces
     public interface IUserService
     {
         HospitalWorkerResponseDTO GetHospitalWorker(int hospitalWorkerId);
+        UserDetailsDTO GetUser(int id);
     }
 }

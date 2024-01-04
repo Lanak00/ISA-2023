@@ -17,5 +17,20 @@ namespace MedicalEquipmentSupplySystem.API.Controllers
             var hospitalWorker = _userService.GetHospitalWorker(id);
             return Ok(hospitalWorker);
         }
+
+        [HttpGet("users/{id}")]
+        public ActionResult GetUser(int id)
+        {
+            var userDetails = _userService.GetUser(id);
+
+            if (userDetails == null)
+            {
+                return NotFound(); // User not found
+            }
+
+            return Ok(userDetails);
+        }
+
+
     }
 }

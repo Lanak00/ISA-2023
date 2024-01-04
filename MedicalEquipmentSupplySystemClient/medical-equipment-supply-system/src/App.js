@@ -6,6 +6,8 @@ import RegistrationPage from './pages/Registration';
 import Layout from './components/layout/Layout';
 import ValidationPage from './pages/Validation';
 import CompanyDetailsPage from './pages/CompanyDetails';
+import MyProfilePage from './pages/MyProfile';
+import ReservationsPage from './pages/Reservations';
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Route path='/register' element = {<RegistrationPage/>}/>
         <Route path='/validate' element = {<ValidationPage/>}/>
         <Route path='/companyDetails/:id' element = {<CompanyDetailsPage/>}/>
+        <Route path='/myprofile/:id' element = {<MyProfilePage/>}/>
+        <Route path='/reservations/:id' element = {<ReservationsPage/>}/>
       </Routes>
     </Layout>
   );

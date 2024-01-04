@@ -2,11 +2,8 @@
 using MedicalEquipmentSupplySystem.DataAccess.Model;
 using MedicalEquipmentSupplySystem.DataAccess.Repository;
 using MedicalEquipmentSupplySystem.BussinessLogic.DTO.HospitalWorker;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MedicalEquipmentSupplySystem.BussinessLogic.DTO;
+using UserRole = MedicalEquipmentSupplySystem.BussinessLogic.DTO.UserRole;
 
 namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
 {
@@ -34,6 +31,34 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
                 Penalties = hospitalWorker.Penalties,
                 IsVerified = hospitalWorker.IsValidated
             };
+        }
+
+        public UserDetailsDTO GetUser(int id)
+        {
+            var user = _userRepository.Get(id);
+            int p = 0;
+
+            if (user != null)
+            {
+                if ((int)user.Role == (int)UserRole.HospitalWorker)
+                {
+                    var hospitalWorker = _userRepository.GetHospitalWorker(user.Id);
+                    p = hospitalWorker.Penalties;
+                }
+
+                return new UserDetailsDTO()
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Address = user.Address,
+                    City = user.City,
+                    Email = user.Email,
+                    Role = (DTO.UserRole)user.Role,
+                    Penalties = p
+                };
+            }
+            else { return new UserDetailsDTO(); }
         }
     }
 }
