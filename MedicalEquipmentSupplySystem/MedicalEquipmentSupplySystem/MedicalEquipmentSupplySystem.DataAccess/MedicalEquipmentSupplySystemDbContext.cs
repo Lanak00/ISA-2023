@@ -17,6 +17,7 @@ namespace MedicalEquipmentSupplySystem.DataAccess
         public DbSet<SystemAdministrator> SystemAdministrators { get; set; }
         public DbSet<SupplyCompany> SupplyCompanies { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
+        public DbSet<EquipmentReservation> EquipmentReservation { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.LogTo(Console.WriteLine);
 

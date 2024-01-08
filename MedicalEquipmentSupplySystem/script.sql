@@ -71,6 +71,16 @@ UPDATE supplycompanies  SET Image = 'https://wolfmediausa.com/wp-content/uploads
 INSERT INTO complaint VALUES (3, 'complaint body content', 1, null, 2);
 INSERT INTO complaint VALUES (2, 'complaint body content', 1, 2, null);
 
+INSERT INTO equipmentreservation VALUES
+(15, '2023-04-07 18:00:00', 48, 10, null, 2),
+(16, '2023-01-03 11:00:00', 72, 17, null, 4);
+
 select * from users;
 delete from users where id = 9;
 
+select * from equipmentreservation
+where Id = 13;
+
+UPDATE EquipmentReservation
+SET HospitalWorkerId = null
+WHERE Id = 13;
