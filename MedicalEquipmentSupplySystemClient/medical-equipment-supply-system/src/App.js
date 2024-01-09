@@ -8,6 +8,9 @@ import ValidationPage from './pages/Validation';
 import CompanyDetailsPage from './pages/CompanyDetails';
 import MyProfilePage from './pages/MyProfile';
 import ReservationsPage from './pages/Reservations';
+import HistoryReservationsComponent from './components/reservations/userReservations/HistoryReservations';
+import UpcomingReservationsComponent from './components/reservations/userReservations/UpcomingReservations';
+
 
 function App() {
   return (
@@ -20,6 +23,8 @@ function App() {
         <Route path='/companyDetails/:id' element = {<CompanyDetailsPage/>}/>
         <Route path='/myprofile/:id' element = {<MyProfilePage/>}/>
         <Route path='/reservations/:id' element = {<ReservationsPage/>}/>
+        <Route path='/reservations/history' element = {<HistoryReservationsComponent/>}/>
+        <Route path='/reservations/upcoming' element = {<UpcomingReservationsComponent/>}/>
       </Routes>
     </Layout>
   );

@@ -24,6 +24,7 @@ function MainNavigation() {
 
     let userId = null;
     const token = localStorage.getItem('accessToken');
+    console.log(token);
 
     if (token) {
         const payload = JSON.parse(atob(token.split('.')[1]));

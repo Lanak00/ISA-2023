@@ -78,9 +78,17 @@ INSERT INTO equipmentreservation VALUES
 select * from users;
 delete from users where id = 9;
 
-select * from equipmentreservation
-where Id = 13;
+select * from equipmentreservation;
 
 UPDATE EquipmentReservation
 SET HospitalWorkerId = null
 WHERE Id = 13;
+
+INSERT INTO equipmentreservation VALUES
+(17, '2022-05-20 10:00:00', 48, 13, 20, 5),
+(18, '2022-07-05 08:30:00', 72, 5, 20, 2),
+(19, '2022-07-17 13:15:20', 48, 1, 20, 2);
+
+UPDATE equipmentreservation
+SET DateTime = '2024-02-08 08:00:00' 
+WHERE Id IN (15, 14);

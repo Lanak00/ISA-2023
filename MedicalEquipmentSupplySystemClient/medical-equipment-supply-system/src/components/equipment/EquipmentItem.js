@@ -15,6 +15,7 @@ function EquipmentItem(props) {
 
     const fetchReservationsForItem = async () => {
         try {
+            console.log(localStorage.getItem('accessToken'));
             const response = await fetch(`https://localhost:7260/reservations/available?equipmentId=${props.id}`);
             if(!response.ok) {
                 throw new Error('Failed to fetch reservation');

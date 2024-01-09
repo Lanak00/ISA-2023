@@ -25,9 +25,21 @@ namespace MedicalEquipmentSupplySystem.API.Controllers
             return Ok(available);
         }
 
+        [HttpGet("history")]
+        public ActionResult GetReservationsHistory(int hospitalWorkerId)
+        {
+            var history = _equipmentReservationService.GetReservationsHistory(hospitalWorkerId);
+            return Ok(history);
+        }
+
+        [HttpGet("upcoming")]
+        public ActionResult GetUpcomingReservations(int hospitalWorkerId)
+        {
+            var upcoming = _equipmentReservationService.GetUpcomingReservations(hospitalWorkerId);
+            return Ok(upcoming);
+        }
 
         [HttpPost("reserve")]
-        [Authorize]
         public IActionResult CreateReservation(int equipmentReservationId, int hospitalWorkerId)
         {
             try

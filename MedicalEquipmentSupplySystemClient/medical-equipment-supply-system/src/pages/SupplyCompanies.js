@@ -10,9 +10,9 @@ const [sortedCompanies, setSortedCompanies] = useState([]);
 const [searchParams, setSearchParams] = useState({});
 
 
-
 useEffect(() => {
     setIsLoading(true);
+    console.log(localStorage.getItem('accessToken'));
 
     const url = 'https://localhost:7260/supplyCompanies';
     const params = new URLSearchParams(searchParams);

@@ -28,5 +28,9 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Repository
         public EquipmentReservation Get(int id) => _context.EquipmentReservation.Find(id);
 
         public IEnumerable<EquipmentReservation> GetAll() => _context.EquipmentReservation;
+
+        public IEnumerable<EquipmentReservation> GetByHospitalWorkerId(int userId) {
+            return _context.EquipmentReservation.Where(reservation => reservation.HospitalWorkerId == userId);
+        }
     }
 }

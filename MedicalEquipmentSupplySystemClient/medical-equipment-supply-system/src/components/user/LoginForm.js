@@ -48,6 +48,8 @@ function LoginForm(props) {
         // Save the token to local storage
         localStorage.setItem('accessToken', token);
 
+        console.log(localStorage.getItem('accessToken'));
+
         // Reset form and enable login button
         emailInputRef.current.value = '';
         passwordInputRef.current.value = '';

@@ -1,6 +1,15 @@
+.elements {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .item {
     margin: 1rem 0;
+    width: 40rem;
     background-color:  transparent;
+    margin-right: 2rem;
+    margin-left: 2rem;
   }
 
 
@@ -11,7 +20,7 @@
   
   
 .content {
-    width: 80%;
+    width: 100%;
     text-align-last:left;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 
@@ -46,7 +55,7 @@
 .actions {
     padding: 1.5rem;
     text-align: center;
-    align-self: center;
+    align-items: fle;
   }
   
 .actions button {
