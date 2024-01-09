@@ -1,20 +1,5 @@
-.splitScreenGrid {
-  display: flex;
-}
-
-.leftPanel {
-  flex: 1; /* Takes up the available space */
-  padding: 20px; /* Adjust padding as needed */
-}
-
-.rightPanel {
-  flex: 2; /* Takes up the available space */
-  padding: 20px; /* Adjust padding as needed */
-}
-
 .item {
     margin: 1rem 0;
-    width: 40rem;
     background-color:  transparent;
   }
 
@@ -67,7 +52,7 @@
 .actions button {
   font: inherit;
   cursor: pointer;
-  background-color:  rgb(5, 80, 61);
+  background-color: rgb(80, 5, 5);
   color: #ccc;
   padding: 0.5rem 1.5rem;
   font-weight: bold;
@@ -76,6 +61,6 @@
   
 .actions button:hover,
 .actions button:active {
-  background-color: rgb(7, 99, 76);
+  background-color: rgb(99, 7, 7);
   border-color: #262626;
   }

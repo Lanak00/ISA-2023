@@ -44,7 +44,7 @@ function MainNavigation() {
                                 <Link to={`/reservations/${userId}`}>Reservations</Link>
                             </li>
                             <li>
-                                <Link to={`/myprofile/${userId}`}>My Profile</Link>
+                                <Link to={`/myprofile/${userId}`}>My Profile {}</Link>
                             </li>
                         </>
                     )}
