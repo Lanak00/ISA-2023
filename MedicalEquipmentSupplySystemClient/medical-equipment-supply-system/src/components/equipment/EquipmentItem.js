@@ -7,6 +7,7 @@ import AllEquipmentReservationsPage from '../../pages/EquipmentReservations';
 function EquipmentItem(props) {
     const [showReservations, setShowReservations] = useState(false);
     const [reservations, setReservations] = useState([]);
+    const isLoggedIn = !!localStorage.getItem('accessToken');
 
     const handleShowReservations = () => {
         fetchReservationsForItem();
@@ -43,7 +44,9 @@ function EquipmentItem(props) {
                                     <p>Description: {props.description}</p>
                                 </div>
                             <div className = {classes.actions} >
-                                <button onClick={handleShowReservations}>See Appointments</button>
+                            {isLoggedIn && (  
+                                    <button onClick={handleShowReservations}>See Appointments</button>
+                                )}
                                     {showReservations && (
                                     <AllEquipmentReservationsPage reservations={reservations} onClose={handleCloseReservations} />
                                     )}

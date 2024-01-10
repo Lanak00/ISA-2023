@@ -15,11 +15,15 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
     {
         private readonly EquipmentReservationRepository _equipmentReservationRepository;
         private readonly IEmailService _emailService;
+        private readonly UserRepository _userRepository;
+        private readonly EquipmentRepository _equipmentRepository;
 
-        public EquipmentReservationService(EquipmentReservationRepository equipmentReservationRepository, IEmailService emailService)
+        public EquipmentReservationService(EquipmentReservationRepository equipmentReservationRepository, IEmailService emailService, UserRepository userRepository, EquipmentRepository equipmentRepository)
         {
             _equipmentReservationRepository = equipmentReservationRepository;
             _emailService = emailService;
+            _userRepository = userRepository;
+            _equipmentRepository = equipmentRepository;
         }
 
         public IEnumerable<EquipmentReservationDTO> GetAvailableAppointments(int equipmentId) 
@@ -96,8 +100,34 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
             return upcomingReservations;
         }
 
+        public void CancelReservation(int equipmentReservationId)
+        {
+            var equipmentReservation = _equipmentReservationRepository.Get(equipmentReservationId);
+
+            var hospitalWorker = _userRepository.GetHospitalWorker((int)equipmentReservation.HospitalWorkerId);
+           
+
+            equipmentReservation.HospitalWorkerId = null;
+
+            TimeSpan timeDifference = equipmentReservation.DateTime - DateTime.Now;
+
+            if (timeDifference.TotalHours > 24)
+            {
+                hospitalWorker.Penalties++;
+            }
+            else
+            {
+                hospitalWorker.Penalties += 2;
+            }
+
+            _equipmentReservationRepository.Update(equipmentReservation);
+            _userRepository.UpdateHospitalWorker(hospitalWorker);
+        }
+
         private EquipmentReservationDTO MapToEquipmentReservationDTO(EquipmentReservation reservation)
         {
+            var equipment = _equipmentRepository.GetEquipment(reservation.EquipmentId);
+
             EquipmentReservationDTO reservationDTO = new EquipmentReservationDTO
             {
                 Id = reservation.Id,
@@ -106,7 +136,8 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
                 Duration = reservation.Duration,
                 EquipmentId = reservation.EquipmentId,
                 HospitalWorkerId = reservation.HospitalWorkerId,
-                CompanyAdminId = reservation.CompanyAdministratorId
+                CompanyAdminId = reservation.CompanyAdministratorId,
+                EquipmentName = equipment.Name,
             };
 
             return reservationDTO;

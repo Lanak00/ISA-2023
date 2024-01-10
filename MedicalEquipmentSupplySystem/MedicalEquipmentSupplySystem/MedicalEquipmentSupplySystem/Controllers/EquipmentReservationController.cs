@@ -53,5 +53,19 @@ namespace MedicalEquipmentSupplySystem.API.Controllers
                 return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
+
+        [HttpPost("cancel")]
+        public IActionResult CancelReservation(int equipmentReservationId)
+        {
+            try
+            {
+                _equipmentReservationService.CancelReservation(equipmentReservationId);
+                return Ok("Reservation canceled successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
     }
 }

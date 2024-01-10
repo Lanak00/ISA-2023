@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import classes from './ReservationItem.module.css';
 import Card from '../ui/Card';
 
 function ReservationItem(props) {
+    const [isReserved, setIsReserved] = useState(false);
     
     const equipmentReservationId = props.id;
 
@@ -18,13 +20,7 @@ function ReservationItem(props) {
     
     const handleReservation = async () => {
         try {
-            console.log(localStorage.getItem('accessToken'));
-            console.log(props);
-            console.log(equipmentReservationId);
-            console.log(token);
-            console.log(hospitalWorkerId);
-            console.log(email);
-
+            setIsReserved(true);
             const response = await fetch(`https://localhost:7260/reservations/reserve?equipmentReservationId=${equipmentReservationId}&hospitalWorkerId=${hospitalWorkerId}&email=${email}`, {
                 method: 'POST',
                 headers: {
@@ -39,6 +35,7 @@ function ReservationItem(props) {
 
         } catch (error) {
             console.error('Error reserving equipment', error)
+            setIsReserved(false);
         }
     } 
 
@@ -53,11 +50,12 @@ function ReservationItem(props) {
                                 <h2>Time: {props.time}</h2>
                             </div>
                             <h3>Duration: {props.duration} hours</h3>
-                            <p> Company administrator: {props.administrator}</p>
                         </div>
                     </div>
                     <div className = {classes.actions} >
-                        <button onClick={handleReservation}>Reserve</button>
+                    <button onClick={handleReservation} disabled={isReserved} className={isReserved ? classes.disabledButton : classes.enabledButton}>
+                        {isReserved ? 'Reserved' : 'Reserve'}
+                    </button>
                     </div>
                 </div>
             </Card>

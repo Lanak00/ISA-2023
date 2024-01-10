@@ -18,6 +18,12 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Repository
 
         public HospitalWorker GetHospitalWorker(int id) => _context.HospitalWorkers.Find(id);
 
+        public void UpdateHospitalWorker(HospitalWorker hospitalWorker)
+        {
+            _context.HospitalWorkers.Update(hospitalWorker);
+            _context.SaveChanges();
+        }
+
         public IEnumerable<User> GetByCondition(Expression<Func<User, bool>> expression)
         {
             return _context.Users.Where(expression.Compile());

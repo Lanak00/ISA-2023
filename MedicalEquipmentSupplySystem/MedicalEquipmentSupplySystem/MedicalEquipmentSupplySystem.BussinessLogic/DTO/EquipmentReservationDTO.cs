@@ -13,7 +13,9 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.DTO
         public string Time { get; set;}
         public int Duration { get; set; }
         public int EquipmentId { get; set; }
+        public string EquipmentName { get; set; }
         public int? HospitalWorkerId { get; set; }
         public int CompanyAdminId { get; set; }
+        public string CompanyAdminName { get; set; }
     }
 }

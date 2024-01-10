@@ -12,7 +12,9 @@ function UserReservationList(props) {
                 time = {res.time}
                 duration = {res.duration}
                 equipmentId = {res.equipmentId}
+                equipmentName = {res.equipmentName}
                 administrator = {res.adminId}
+                administratorName = {res.administratorName}
                 isUpcoming={isUpcoming} 
             />)}
         </ul>

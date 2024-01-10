@@ -30,6 +30,8 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Repository
 
         public IEnumerable<Equipment> GetAll() => _context.Equipment;
 
+        public Equipment GetEquipment(int equipmentId) => _context.Equipment.Find(equipmentId);
+
         public IEnumerable<Equipment> GetByCondition(Expression<Func<Equipment, bool>> expression) 
         {
             return _context.Equipment

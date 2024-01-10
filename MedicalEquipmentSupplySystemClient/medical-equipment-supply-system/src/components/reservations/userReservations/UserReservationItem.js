@@ -1,12 +1,37 @@
+import { useState } from 'react'; 
 import classes from '../ReservationItem.module.css'
 import Card from '../../ui/Card';
 
 function UserReservationItem(props) {
 
+    const [isCanceled, setIsCanceled] = useState(false);
+
     const isUpcoming = props.isUpcoming;
 
     const cancelReservation = () => {
-        // Logic for the action when the button is clicked
+
+        const equipmentReservationId = props.id; 
+
+        try {
+
+            console.log(equipmentReservationId);
+
+            const response = fetch(`https://localhost:7260/reservations/cancel?equipmentReservationId=${equipmentReservationId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-type' : 'aplication/json'
+                },
+            });
+            setIsCanceled(true);
+
+            if (!response.ok) {
+                throw new Error('Failed to cancel reservation');
+            }
+
+        } catch (error) {
+            console.error('Error canceling reservation', error)
+        }
+    
     };
 
     return(
@@ -16,16 +41,18 @@ function UserReservationItem(props) {
                     <div className={classes.allcont}>
                         <div className={classes.content}>
                             <div>
+                                <h2>{props.equipmentName}</h2>
                                 <h2>Date: {props.date}</h2>
                                 <h2>Time: {props.time}</h2>
                             </div>
                             <h3>Duration: {props.duration} hours</h3>
-                            <p> Company administrator: {props.administrator}</p>
                         </div>
                     </div>
                     {isUpcoming && (
                     <div className={classes.actions}>
-                        <button onClick={cancelReservation}>Cancel</button>
+                        <button onClick={cancelReservation} disabled={isCanceled} className={isCanceled ? classes.disabledButton : classes.enabledButton}>
+                                {isCanceled ? 'Canceled' : 'Cancel'}
+                        </button>
                     </div>
                     )}
                 </div>

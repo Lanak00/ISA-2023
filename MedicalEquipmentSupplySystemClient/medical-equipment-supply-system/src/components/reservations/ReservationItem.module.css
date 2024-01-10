@@ -12,7 +12,7 @@
     margin-left: 2rem;
   }
 
-
+  
 .allcont {
   display: flex;
   max-height: 15rem;
@@ -27,10 +27,10 @@
   }
   
 .content h2 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: rgb(245, 245, 245);
     padding: 0.5rem;
-    margin: 1rem;
+    margin: 0.7rem;
     font-weight: normal;
   }
 
@@ -38,7 +38,7 @@
     font-size: 1.2rem;
     color: rgb(196, 196, 196);
     padding: 0.5rem;
-    margin: 1rem;
+    margin: 0.7rem;
     font-weight: lighter;
     text-decoration: none;
   }
@@ -58,7 +58,7 @@
     align-items: fle;
   }
   
-.actions button {
+.enabledButton {
   font: inherit;
   cursor: pointer;
   background-color: rgb(80, 5, 5);
@@ -68,8 +68,17 @@
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   }
   
+.disabledButton {
+    font: inherit;
+    cursor: pointer;
+    background-color: rgb(43, 2, 2);
+    color: #7e7e7e;
+    padding: 0.5rem 1.5rem;
+    font-weight: bold;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    }
+
 .actions button:hover,
 .actions button:active {
-  background-color: rgb(99, 7, 7);
   border-color: #262626;
   }
