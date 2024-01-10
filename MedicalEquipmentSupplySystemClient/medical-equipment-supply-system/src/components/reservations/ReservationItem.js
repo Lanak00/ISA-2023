@@ -8,9 +8,12 @@ function ReservationItem(props) {
     const token = localStorage.getItem('accessToken');
 
     let hospitalWorkerId = null;
+    let email = null;
+
     if (token) {
         const payload = JSON.parse(atob(token.split('.')[1]));
         hospitalWorkerId = payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+        email = payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
     }
     
     const handleReservation = async () => {
@@ -20,8 +23,9 @@ function ReservationItem(props) {
             console.log(equipmentReservationId);
             console.log(token);
             console.log(hospitalWorkerId);
+            console.log(email);
 
-            const response = await fetch(`https://localhost:7260/reservations/reserve?equipmentReservationId=${equipmentReservationId}&hospitalWorkerId=${hospitalWorkerId}`, {
+            const response = await fetch(`https://localhost:7260/reservations/reserve?equipmentReservationId=${equipmentReservationId}&hospitalWorkerId=${hospitalWorkerId}&email=${email}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

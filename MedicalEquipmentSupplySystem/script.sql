@@ -92,3 +92,13 @@ INSERT INTO equipmentreservation VALUES
 UPDATE equipmentreservation
 SET DateTime = '2024-02-08 08:00:00' 
 WHERE Id IN (15, 14);
+
+INSERT INTO equipmentreservation VALUES
+(23, '2024-05-20 10:00:00', 48, 1, null, 5),
+(24, '2024-07-05 08:30:00', 72, 1, null, 2),
+(25, '2024-07-17 13:15:20', 48, 1, null, 2);
+
+INSERT INTO equipmentreservation VALUES
+(26, '2024-02-02 10:00:00', 48, 2, null, 5),
+(27, '2024-02-05 08:30:00', 72, 3, null, 2),
+(28, '2024-02-17 13:15:20', 48, 3, null, 2);

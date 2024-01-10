@@ -1,5 +1,6 @@
 ﻿using MedicalEquipmentSupplySystem.BussinessLogic.Interfaces;
 using MedicalEquipmentSupplySystem.BussinessLogic.Services;
+using MedicalEquipmentSupplySystem.BussinessLogic.Services.Email;
 using MedicalEquipmentSupplySystem.DataAccess.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,11 +41,11 @@ namespace MedicalEquipmentSupplySystem.API.Controllers
         }
 
         [HttpPost("reserve")]
-        public IActionResult CreateReservation(int equipmentReservationId, int hospitalWorkerId)
+        public IActionResult CreateReservation(int equipmentReservationId, int hospitalWorkerId, string email)
         {
             try
             {
-                _equipmentReservationService.CreateReservation(equipmentReservationId, hospitalWorkerId);
+                _equipmentReservationService.CreateReservation(equipmentReservationId, hospitalWorkerId, email);
                 return Ok("Reservation created successfully.");
             }
             catch (Exception ex)

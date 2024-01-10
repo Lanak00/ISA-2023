@@ -21,10 +21,21 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services.Email
             email.Sender = MailboxAddress.Parse(_emailConfig.From);
             email.To.Add(MailboxAddress.Parse(emailRequest.ToEmail));
             email.Subject = emailRequest.Subject;
-            //body?
+
             BodyBuilder emailBodyBuilder = new BodyBuilder();   
             emailBodyBuilder.TextBody = emailRequest.Body;
+
+            if (emailRequest.Attachments != null && emailRequest.Attachments.Count > 0)
+            {
+                foreach (var attachment in emailRequest.Attachments)
+                {
+                    emailBodyBuilder.Attachments.Add(attachment); // Add each attachment
+                }
+            }
+
             email.Body = emailBodyBuilder.ToMessageBody();
+
+          
 
             using (var smtp = new SmtpClient())
             {

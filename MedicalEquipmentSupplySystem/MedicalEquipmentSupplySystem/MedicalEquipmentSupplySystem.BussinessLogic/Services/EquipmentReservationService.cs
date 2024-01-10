@@ -1,19 +1,25 @@
 ﻿using MedicalEquipmentSupplySystem.BussinessLogic.DTO;
 using MedicalEquipmentSupplySystem.BussinessLogic.Interfaces;
+using MedicalEquipmentSupplySystem.BussinessLogic.Services.Email;
 using MedicalEquipmentSupplySystem.DataAccess.Model;
 using MedicalEquipmentSupplySystem.DataAccess.Repository;
-using System.Collections;
+using System.Net.Mail;
+using QRCoder;
+using System.Drawing;
+using System.IO;
+using MimeKit;
 
 namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
 {
     public class EquipmentReservationService : IEquipmentReservationService
     {
         private readonly EquipmentReservationRepository _equipmentReservationRepository;
+        private readonly IEmailService _emailService;
 
-        public EquipmentReservationService(EquipmentReservationRepository equipmentReservationRepository)
+        public EquipmentReservationService(EquipmentReservationRepository equipmentReservationRepository, IEmailService emailService)
         {
             _equipmentReservationRepository = equipmentReservationRepository;
- 
+            _emailService = emailService;
         }
 
         public IEnumerable<EquipmentReservationDTO> GetAvailableAppointments(int equipmentId) 
@@ -29,13 +35,45 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
             return availableDTOs;
         }
 
-        public void CreateReservation(int equipmentReservationId, int hospitalWorkerId) 
+        public void CreateReservation(int equipmentReservationId, int hospitalWorkerId, string email) 
         {
             var reservation = _equipmentReservationRepository.Get(equipmentReservationId);
 
             reservation.HospitalWorkerId = hospitalWorkerId;
 
             _equipmentReservationRepository.Update(reservation);
+
+            /*generisanje QR koda i slanje mejla*/
+
+            var qrCodeBytes = GenerateQRCodeAsBytes(reservation);
+
+            // Compose email
+            var emailRequest = new EmailRequest();
+            emailRequest.ToEmail = email;
+            emailRequest.Subject = "Reservation Confirmation";
+            emailRequest.Body = "Your reservation details:\n" +
+                                $"Date: {reservation.DateTime.ToShortDateString()}\n" +
+                                $"Time: {reservation.DateTime.ToShortTimeString()}\n";
+
+
+
+            emailRequest.Attachments.Add(new MimePart("image", "png")
+            {
+                Content = new MimeContent(new MemoryStream(qrCodeBytes), ContentEncoding.Default),
+                ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                ContentTransferEncoding = ContentEncoding.Base64,
+                FileName = "QRCode.png"
+            });
+
+            try
+            {
+                _emailService.SendEmail(emailRequest);
+            }
+            catch (Exception ex)
+            {
+                // Handle email sending failure
+                throw;
+            }
         }
 
         public IEnumerable<EquipmentReservationDTO> GetReservationsHistory(int hospitalWorkerId)
@@ -74,6 +112,17 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
             return reservationDTO;
         }
 
-         
+        private byte[] GenerateQRCodeAsBytes(EquipmentReservation reservation)
+        {
+            var qrContent = $"Reservation ID: {reservation.Id}\n" +
+                     $"Date: {reservation.DateTime.ToShortDateString()}\n" +
+                     $"Time: {reservation.DateTime.ToShortTimeString()}\n" +
+                     $"Duration: {reservation.Duration + " " + "hours"} \n";
+
+            using var qrGenerator = new QRCoder.QRCodeGenerator();
+            var qrCodeData = qrGenerator.CreateQrCode(qrContent, QRCoder.QRCodeGenerator.ECCLevel.Q);
+            var qrCode = new QRCoder.PngByteQRCode(qrCodeData);
+            return qrCode.GetGraphic(20); // Get QR code image as byte array
+        }
     }
 }

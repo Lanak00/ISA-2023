@@ -49,7 +49,9 @@ builder.Services.AddScoped<ISupplyCompanyService>(_ => new SupplyCompanyService(
 builder.Services.AddScoped<IUserService>(_ => new UserService(userRepository));
 builder.Services.AddScoped<IAuthService>(_ => new AuthService(userRepository));
 builder.Services.AddScoped<IEquipmentService>(_ => new EquipmentService(equipmentRepository));
-builder.Services.AddScoped<IEquipmentReservationService>(_ => new EquipmentReservationService(equipmentReservationRepository));
+builder.Services.AddScoped<IEquipmentReservationService>(_ =>
+    new EquipmentReservationService(equipmentReservationRepository,
+                                    _.GetRequiredService<IEmailService>()));
 
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]);
 

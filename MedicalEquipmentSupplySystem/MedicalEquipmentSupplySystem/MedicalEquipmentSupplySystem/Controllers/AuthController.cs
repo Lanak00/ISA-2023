@@ -89,10 +89,14 @@ namespace MedicalEquipmentSupplySystem.API.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, userDetails.Id.ToString()), 
-                new Claim(ClaimTypes.Role, userDetails.Role.ToString()), 
-                new Claim("FirstName", userDetails.FirstName), 
-                new Claim("LastName", userDetails.LastName) 
+                new Claim(ClaimTypes.Role, userDetails.Role.ToString())
             };
+
+
+            if (!string.IsNullOrEmpty(login.Email))
+            {
+                claims.Add(new Claim(ClaimTypes.Email, login.Email));
+            }
 
             // Token configuration
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
