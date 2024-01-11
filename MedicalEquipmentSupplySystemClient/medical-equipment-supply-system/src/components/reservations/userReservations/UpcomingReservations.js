@@ -19,7 +19,13 @@ function UpcomingReservationsComponent({ upcomingReservations }) {
     useEffect( () => {
         setIsLoading(true);
         fetch(
-            `https://localhost:7260/reservations/upcoming?hospitalWorkerId=${userId}`
+            `https://localhost:7260/reservations/upcoming?hospitalWorkerId=${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-type' : 'aplication/json'
+                },
+        }
         ).then( (response) => {
             return response.json();
         }).then((data) => {
@@ -28,7 +34,7 @@ function UpcomingReservationsComponent({ upcomingReservations }) {
             console.log(data)
         });
 
-}, [userId]);
+}, [userId, token]);
 
         if(isLoading) { 
             return ( 

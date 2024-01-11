@@ -4,6 +4,7 @@ using MedicalEquipmentSupplySystem.BussinessLogic.Services.Email;
 using MedicalEquipmentSupplySystem.DataAccess.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace MedicalEquipmentSupplySystem.API.Controllers
 {
@@ -27,20 +28,24 @@ namespace MedicalEquipmentSupplySystem.API.Controllers
         }
 
         [HttpGet("history")]
+        [Authorize(Policy = "HospitalWorkerPolicy")]
         public ActionResult GetReservationsHistory(int hospitalWorkerId)
-        {
+        { 
             var history = _equipmentReservationService.GetReservationsHistory(hospitalWorkerId);
             return Ok(history);
         }
 
         [HttpGet("upcoming")]
+        [Authorize(Policy = "HospitalWorkerPolicy")]
         public ActionResult GetUpcomingReservations(int hospitalWorkerId)
         {
             var upcoming = _equipmentReservationService.GetUpcomingReservations(hospitalWorkerId);
             return Ok(upcoming);
         }
 
+        
         [HttpPost("reserve")]
+        [Authorize(Policy = "HospitalWorkerPolicy")]
         public IActionResult CreateReservation(int equipmentReservationId, int hospitalWorkerId, string email)
         {
             try
@@ -55,6 +60,7 @@ namespace MedicalEquipmentSupplySystem.API.Controllers
         }
 
         [HttpPost("cancel")]
+        [Authorize(Policy = "HospitalWorkerPolicy")]
         public IActionResult CancelReservation(int equipmentReservationId)
         {
             try

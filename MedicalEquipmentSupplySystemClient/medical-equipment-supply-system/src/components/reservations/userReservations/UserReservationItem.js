@@ -5,7 +5,7 @@ import Card from '../../ui/Card';
 function UserReservationItem(props) {
 
     const [isCanceled, setIsCanceled] = useState(false);
-
+    const token = localStorage.getItem('accessToken');
     const isUpcoming = props.isUpcoming;
 
     const cancelReservation = () => {
@@ -19,6 +19,7 @@ function UserReservationItem(props) {
             const response = fetch(`https://localhost:7260/reservations/cancel?equipmentReservationId=${equipmentReservationId}`, {
                 method: 'POST',
                 headers: {
+                    'Authorization': `Bearer ${token}`,
                     'Content-type' : 'aplication/json'
                 },
             });

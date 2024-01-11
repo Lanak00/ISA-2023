@@ -55,11 +55,7 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
             var emailRequest = new EmailRequest();
             emailRequest.ToEmail = email;
             emailRequest.Subject = "Reservation Confirmation";
-            emailRequest.Body = "Your reservation details:\n" +
-                                $"Date: {reservation.DateTime.ToShortDateString()}\n" +
-                                $"Time: {reservation.DateTime.ToShortTimeString()}\n";
-
-
+            emailRequest.Body = "Thank you for your reservation. Scan QR code to see your reservation details:\n"; 
 
             emailRequest.Attachments.Add(new MimePart("image", "png")
             {
@@ -75,7 +71,6 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
             }
             catch (Exception ex)
             {
-                // Handle email sending failure
                 throw;
             }
         }
@@ -137,7 +132,7 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
                 EquipmentId = reservation.EquipmentId,
                 HospitalWorkerId = reservation.HospitalWorkerId,
                 CompanyAdminId = reservation.CompanyAdministratorId,
-                EquipmentName = equipment.Name,
+                EquipmentName = equipment.Name
             };
 
             return reservationDTO;
@@ -145,7 +140,7 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
 
         private byte[] GenerateQRCodeAsBytes(EquipmentReservation reservation)
         {
-            var qrContent = $"Reservation ID: {reservation.Id}\n" +
+            var qrContent = $"Equipment: {reservation.Equipment.Name}\n" +
                      $"Date: {reservation.DateTime.ToShortDateString()}\n" +
                      $"Time: {reservation.DateTime.ToShortTimeString()}\n" +
                      $"Duration: {reservation.Duration + " " + "hours"} \n";

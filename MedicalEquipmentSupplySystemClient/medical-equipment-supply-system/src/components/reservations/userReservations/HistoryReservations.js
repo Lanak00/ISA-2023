@@ -20,7 +20,13 @@ function HistoryReservationsComponent() {
     useEffect( () => {
         setIsLoading(true);
         fetch(
-            `https://localhost:7260/reservations/history?hospitalWorkerId=${userId}`
+            `https://localhost:7260/reservations/history?hospitalWorkerId=${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-type' : 'aplication/json'
+                },
+            }
         ).then( (response) => {
             return response.json();
         }).then((data) => {
@@ -29,7 +35,7 @@ function HistoryReservationsComponent() {
             console.log(data)
         });
 
-}, [userId]);
+}, [userId, token]);
 
         if(isLoading) { 
             return ( 
