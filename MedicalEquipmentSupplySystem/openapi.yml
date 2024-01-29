@@ -1,0 +1,396 @@
+openapi: 3.0.0
+info:
+  title: Medical Equipment Supply System API
+  version: 1.0.0
+  description: >
+    This API provides functionalities for managing medical equipment supply within healthcare institutions.
+    It includes endpoints for user authentication, registration, user details retrieval, 
+    supply company information, equipment details, equipment reservations, and more.
+
+paths:
+  /auth/register:
+    post:
+      summary: Register a new user with 'hospital worker' role
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HospitalWorkerRegisterDTO"
+      responses:
+        "201":
+          description: User registered successfully
+          content:
+            application/json:
+              example:
+                id: <userId>
+        "400":
+          description: User already exists
+
+  /auth/verify:
+    post:
+      summary: Verify user to confirm email after registration
+      parameters:
+        - name: token
+          in: query
+          description: Registration token
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User verified! :)
+        "400":
+          description: Invalid Token
+
+  /auth/login:
+    post:
+      summary: Authenticate user and generate JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginDTO"
+      responses:
+        "200":
+          description: Authentication successful
+          content:
+            application/json:
+              example:
+                Token: <generatedToken>
+        "401":
+          description: Invalid credentials or email not verified
+
+  /users/users/{id}:
+    get:
+      summary: Get details of a user by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the user
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                id: <userId>
+                firstName: <userFirstName>
+                lastName: <userLastName>
+                Address: <userAddress>
+                City: <userCity>
+                Email: <userEmail>
+                Role: <userRole>
+        "404":
+          description: User not found
+
+  /users/hospitalWorkers/{id}:
+    get:
+      summary: Get details of a user with 'hospital worker' role by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the hospital worker
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                firstName: <hospitalWorkerFirstName>
+                lastName: <hospitalWorkerLastName>
+                email: <hospitalWorkerEmail>
+                Address: <hospitalWorkerAddress>
+                City: <hospitalWorkerCity>
+                Country: <hospitalWorkerCountry>
+                Gender: <hospitalWorkerGender>
+                Company: <hospitalWorkerCompany>
+                Penalties: <hospitalWorkerPenalties>
+                IsVerified: <hospitalWorkerIsVerified>
+
+  /reservations/available:
+    get:
+      summary: Get available appointments for a specific equipment
+      parameters:
+        - name: equipmentId
+          in: query
+          description: ID of the equipment
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - appointmentId: <appointmentId1>
+                  date: <appointmentDate1>
+                  time: <appointmentTime1>
+                  duration: <appintmentDuration1>
+                  equipmentId: <appointmentEquipmentId1>
+                  hospitalWorkerId: <appointmentHospitalWorkerId1>
+                  companyAdminId: <appointmenrCompanyAdminId1>
+                  EquipmentName: <appointmentEquipmentName1>
+                - appointmentId: <appointmentId2>
+                  date: <appointmentDate2>
+
+  /reservations/history:
+    get:
+      summary: Get all past reservations for a hospital worker
+      parameters:
+        - name: hospitalWorkerId
+          in: query
+          description: ID of the hospital worker
+          required: true
+          schema:
+            type: integer
+      security:
+        - HospitalWorkerPolicy: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - reservationId: <reservationId1>
+                  equipmentId: <equipmentId1>
+                  date: <reservationDate1>
+                  time: <reservationTime1>
+                  duration: <reservationDuration1>
+                  hospitalWorkerId: <hospitalWorkerId1>
+                  equipmentName: <equipmentName1>
+                  companAdminId: <companyAdminId1>
+                - reservationId: <reservationId2>
+                  equipmentId: <equipmentId2>
+
+  /reservations/upcoming:
+    get:
+      summary: Get upcoming reservations for a hospital worker
+      parameters:
+        - name: hospitalWorkerId
+          in: query
+          description: ID of the hospital worker
+          required: true
+          schema:
+            type: integer
+      security:
+        - HospitalWorkerPolicy: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - reservationId: <reservationId1>
+                  equipmentId: <equipmentId1>
+                  date: <reservationDate1>
+                  time: <reservationTime1>
+                  duration: <reservationDuration1>
+                  hospitalWorkerId: <hospitalWorkerId1>
+                  equipmentName: <equipmentName1>
+                  companAdminId: <companyAdminId1>
+                - reservationId: <reservationId2>
+                  equipmentId: <equipmentId2>
+
+  /reservations/reserve:
+    post:
+      summary: Create a new equipment reservation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EquipmentReservationRequest"
+      security:
+        - HospitalWorkerPolicy: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example: Reservation created successfully.
+        "500":
+          description: An error occurred
+
+  /reservations/cancel:
+    post:
+      summary: Cancel an existing equipment reservation
+      parameters:
+        - name: equipmentReservationId
+          in: query
+          description: ID of the equipment reservation
+          required: true
+          schema:
+            type: integer
+      security:
+        - HospitalWorkerPolicy: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example: Reservation canceled successfully
+        "500":
+          description: An error occurred
+
+  /equipment:
+    get:
+      summary: Get a list of equipment
+      parameters:
+        - name: supplyCompanyId
+          in: query
+          description: Filter by supply company ID
+          schema:
+            type: integer
+        - name: name
+          in: query
+          description: Filter by equipment name
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: Filter by equipment type
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          description: Sort by a specific field (e.g., Name, Type)
+          schema:
+            type: string
+            enum: [Name, Type]
+        - name: sortOrder
+          in: query
+          description: Sort order (Asc or Desc)
+          schema:
+            type: string
+            enum: [Asc, Desc]
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - id: <equipmentId1>
+                  name: <equipmentName1>
+                  type: <equipmentType1>
+                  description: <equipmentDescription1>
+                - id: <equipmentId2>
+                  name: <equipmentName2>
+                  type: <equipmentType2>
+                  description: <equipmentDescription2>
+
+  /supplyCompanies:
+    get:
+      summary: Get a list of all supply companies
+      parameters:
+        - name: name
+          in: query
+          description: Filter by company name
+          schema:
+            type: string
+        - name: city
+          in: query
+          description: Filter by city
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          description: Sort by a specific field (e.g., Name, City)
+          schema:
+            type: string
+            enum: [Name, City]
+        - name: sortOrder
+          in: query
+          description: Sort order (Asc or Desc)
+          schema:
+            type: string
+            enum: [Asc, Desc]
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - id: <companyId1>
+                  name: <companyName1>
+                  city: <companyCity1>
+                  address: <companyAddress1>
+                  image: <companyImage1>
+                  description: <companyDescription1>
+                  rating: <companyRating1>
+                - id: <companyId2>
+                  name: <companyName2>
+                  city: <companyCity2>
+                  address: <companyAddress2>
+                  image: <companyImage2>
+                  description: <companyDescription2>
+                  rating: <companyRating2>
+
+components:
+  schemas:
+    HospitalWorkerRegisterDTO:
+      type: object
+      properties:
+        Email:
+          type: string
+          format: email
+        Password:
+          type: string
+          format: password
+        OtherProperties:
+          Confirm Password:
+            type: string
+            format: password
+          FirstName:
+            type: string
+            format: text
+          LastName:
+            type: string
+            format: text
+          Address:
+            type: string
+            format: text
+          City:
+            type: string
+            format: text
+          Country:
+            type: string
+            format: text
+          Company:
+            type: string
+            format: text
+    LoginDTO:
+      type: object
+      properties:
+        Email:
+          type: string
+          format: email
+        Password:
+          type: string
+          format: password
+
+    SortSupplyCompaniesBy:
+      type: string
+      enum: [Name, City]
+
+    SortOrder:
+      type: string
+      enum: [Asc, Desc]
+
+    EquipmentReservationRequest:
+      type: object
+      properties:
+        equipmentReservationId:
+          type: integer
+        hospitalWorkerId:
+          type: integer
+        email:
+          type: string
