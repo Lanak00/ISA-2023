@@ -1,4 +1,5 @@
 ﻿using MedicalEquipmentSupplySystem.BussinessLogic.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalEquipmentSupplySystem.API.Controllers
@@ -19,6 +20,7 @@ namespace MedicalEquipmentSupplySystem.API.Controllers
         }
 
         [HttpGet("users/{id}")]
+        [Authorize(Policy = "HospitalWorkerPolicy")]
         public ActionResult GetUser(int id)
         {
             var userDetails = _userService.GetUser(id);

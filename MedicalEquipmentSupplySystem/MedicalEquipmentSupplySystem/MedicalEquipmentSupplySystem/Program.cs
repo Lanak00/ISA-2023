@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using FluentAssertions.Common;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,10 @@ var contextFactory = new MedicalEquipmentSupplySystemContextFactory();
 string connectionString = "server=localhost;database=medicalequipmentsupplysystem;uid=root;pwd=root;Old Guids=true";
 var context = contextFactory.CreateDbContext(new string[] { connectionString });
 
+MedicalEquipmentSupplySystemDbContext getContext() { 
+    return contextFactory.CreateDbContext(new string[] { connectionString });
+}
+
 var supplyCompanyRepository = new MedicalEquipmentSupplySystem.DataAccess.Repository.SupplyCompanyRepository(context);
 var userRepository = new MedicalEquipmentSupplySystem.DataAccess.Repository.UserRepository(context);
 var equipmentRepository = new MedicalEquipmentSupplySystem.DataAccess.Repository.EquipmentRepository(context);
@@ -45,12 +50,12 @@ var equipmentReservationRepository = new MedicalEquipmentSupplySystem.DataAccess
 
 
 builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddScoped<ISupplyCompanyService>(_ => new SupplyCompanyService(supplyCompanyRepository));
-builder.Services.AddScoped<IUserService>(_ => new UserService(userRepository));
-builder.Services.AddScoped<IAuthService>(_ => new AuthService(userRepository));
-builder.Services.AddScoped<IEquipmentService>(_ => new EquipmentService(equipmentRepository));
-builder.Services.AddScoped<IEquipmentReservationService>(_ => new EquipmentReservationService(equipmentReservationRepository, _.GetRequiredService<IEmailService>(),
-        userRepository, equipmentRepository));
+builder.Services.AddScoped<ISupplyCompanyService>(_ => new SupplyCompanyService(new MedicalEquipmentSupplySystem.DataAccess.Repository.SupplyCompanyRepository(getContext())));
+builder.Services.AddScoped<IUserService>(_ => new UserService(new MedicalEquipmentSupplySystem.DataAccess.Repository.UserRepository(getContext())));
+builder.Services.AddScoped<IAuthService>(_ => new AuthService(new MedicalEquipmentSupplySystem.DataAccess.Repository.UserRepository(getContext())));
+builder.Services.AddScoped<IEquipmentService>(_ => new EquipmentService(new MedicalEquipmentSupplySystem.DataAccess.Repository.EquipmentRepository(getContext())));
+builder.Services.AddScoped<IEquipmentReservationService>(_ => new EquipmentReservationService(new MedicalEquipmentSupplySystem.DataAccess.Repository.EquipmentReservationRepository(getContext()), _.GetRequiredService<IEmailService>(),
+       new MedicalEquipmentSupplySystem.DataAccess.Repository.UserRepository(getContext()), new MedicalEquipmentSupplySystem.DataAccess.Repository.EquipmentRepository(getContext())));
 
 
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]);

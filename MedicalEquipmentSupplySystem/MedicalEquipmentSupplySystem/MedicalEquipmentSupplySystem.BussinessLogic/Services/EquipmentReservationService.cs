@@ -8,6 +8,8 @@ using QRCoder;
 using System.Drawing;
 using System.IO;
 using MimeKit;
+using System.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
 {
@@ -43,35 +45,52 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
         {
             var reservation = _equipmentReservationRepository.Get(equipmentReservationId);
 
-            reservation.HospitalWorkerId = hospitalWorkerId;
-
-            _equipmentReservationRepository.Update(reservation);
-
-            /*generisanje QR koda i slanje mejla*/
-
-            var qrCodeBytes = GenerateQRCodeAsBytes(reservation);
-
-            // Compose email
-            var emailRequest = new EmailRequest();
-            emailRequest.ToEmail = email;
-            emailRequest.Subject = "Reservation Confirmation";
-            emailRequest.Body = "Thank you for your reservation. Scan QR code to see your reservation details:\n"; 
-
-            emailRequest.Attachments.Add(new MimePart("image", "png")
+            if (reservation.HospitalWorkerId != null)
             {
-                Content = new MimeContent(new MemoryStream(qrCodeBytes), ContentEncoding.Default),
-                ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
-                ContentTransferEncoding = ContentEncoding.Base64,
-                FileName = "QRCode.png"
-            });
+                throw new InvalidOperationException("Reservation has already been assigned.");
+            }
+
+            reservation.HospitalWorkerId = hospitalWorkerId;
 
             try
             {
-                _emailService.SendEmail(emailRequest);
+                if (!IsRowVersionValid(reservation))
+                {
+                    throw new InvalidOperationException("Concurrency conflict: The data has been modified by another user.");
+                }
+                _equipmentReservationRepository.Update(reservation);
+
+                /*generisanje QR koda i slanje mejla*/
+
+                var qrCodeBytes = GenerateQRCodeAsBytes(reservation);
+
+                // Compose email
+                var emailRequest = new EmailRequest();
+                emailRequest.ToEmail = email;
+                emailRequest.Subject = "Reservation Confirmation";
+                emailRequest.Body = "Thank you for your reservation. Scan QR code to see your reservation details:\n";
+
+                emailRequest.Attachments.Add(new MimePart("image", "png")
+                {
+                    Content = new MimeContent(new MemoryStream(qrCodeBytes), ContentEncoding.Default),
+                    ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                    ContentTransferEncoding = ContentEncoding.Base64,
+                    FileName = "QRCode.png"
+                });
+
+                try
+                {
+                    _emailService.SendEmail(emailRequest);
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
             }
-            catch (Exception ex)
+            catch (DbUpdateConcurrencyException ex)
             {
-                throw;
+                throw new DbUpdateConcurrencyException("Concurrency conflict: The data has been modified by another user.", ex);
+
             }
         }
 
@@ -149,6 +168,13 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
             var qrCodeData = qrGenerator.CreateQrCode(qrContent, QRCoder.QRCodeGenerator.ECCLevel.Q);
             var qrCode = new QRCoder.PngByteQRCode(qrCodeData);
             return qrCode.GetGraphic(20); // Get QR code image as byte array
+        }
+
+        private bool IsRowVersionValid(EquipmentReservation reservation)
+        {
+            var currentRowVersion = _equipmentReservationRepository.GetCurrentRowVersion(reservation.Id);
+
+            return reservation.RowVersion.SequenceEqual(currentRowVersion);
         }
     }
 }

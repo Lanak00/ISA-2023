@@ -20,7 +20,13 @@ function MyProfilePage() {
 
 
     const fetchUserData = useCallback(() => {
-        fetch(`https://localhost:7260/users/${userId}`)
+        fetch(`https://localhost:7260/users/${userId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-type' : 'aplication/json'
+            },
+        })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch user data');
@@ -29,7 +35,7 @@ function MyProfilePage() {
             })
             .then(data => setUserData(data))
             .catch(error => console.error('Error fetching user data:', error));
-    }, [userId]);
+    }, [userId, token]);
 
     useEffect(() => {
         fetchUserData(); 

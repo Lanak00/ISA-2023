@@ -17,5 +17,6 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Model
         public int? HospitalWorkerId { get; set; } 
         public CompanyAdministrator CompanyAdministrator { get; set; }
         public int CompanyAdministratorId { get; set; }
+        public byte[] RowVersion { get; set; }
     }
 }

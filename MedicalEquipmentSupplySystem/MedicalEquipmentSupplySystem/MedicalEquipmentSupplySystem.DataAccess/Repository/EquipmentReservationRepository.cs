@@ -1,4 +1,5 @@
 ﻿using MedicalEquipmentSupplySystem.DataAccess.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,17 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Repository
 
         public void Update(EquipmentReservation equipmentReservation)
         {
-            _context.EquipmentReservation.Update(equipmentReservation);
-            _context.SaveChanges();
+            var entry = _context.Entry(equipmentReservation);
+            entry.State = EntityState.Modified;
+            entry.Property("RowVersion").OriginalValue = equipmentReservation.RowVersion;
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw new ApplicationException("Concurrency conflict: The data has been modified by another user.", ex);
+            }
         }
 
         public int Add(EquipmentReservation equipmentReservation)
@@ -31,6 +41,13 @@ namespace MedicalEquipmentSupplySystem.DataAccess.Repository
 
         public IEnumerable<EquipmentReservation> GetByHospitalWorkerId(int userId) {
             return _context.EquipmentReservation.Where(reservation => reservation.HospitalWorkerId == userId);
+        }
+        public byte[] GetCurrentRowVersion(int reservationId)
+        {
+            return _context.EquipmentReservation
+                .Where(e => e.Id == reservationId)
+                .Select(e => e.RowVersion)
+                .FirstOrDefault();
         }
     }
 }
