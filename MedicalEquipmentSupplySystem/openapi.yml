@@ -7,6 +7,9 @@ info:
     It includes endpoints for user authentication, registration, user details retrieval, 
     supply company information, equipment details, equipment reservations, and more.
 
+security:
+  - HospitalWorkerPolicy: []
+
 paths:
   /auth/register:
     post:
@@ -335,6 +338,12 @@ paths:
                   rating: <companyRating2>
 
 components:
+  securitySchemes:
+    HospitalWorkerPolicy:
+      type: apiKey
+      in: header
+      name: Authorization
+
   schemas:
     HospitalWorkerRegisterDTO:
       type: object
@@ -345,28 +354,7 @@ components:
         Password:
           type: string
           format: password
-        OtherProperties:
-          Confirm Password:
-            type: string
-            format: password
-          FirstName:
-            type: string
-            format: text
-          LastName:
-            type: string
-            format: text
-          Address:
-            type: string
-            format: text
-          City:
-            type: string
-            format: text
-          Country:
-            type: string
-            format: text
-          Company:
-            type: string
-            format: text
+
     LoginDTO:
       type: object
       properties:
@@ -376,14 +364,6 @@ components:
         Password:
           type: string
           format: password
-
-    SortSupplyCompaniesBy:
-      type: string
-      enum: [Name, City]
-
-    SortOrder:
-      type: string
-      enum: [Asc, Desc]
 
     EquipmentReservationRequest:
       type: object
