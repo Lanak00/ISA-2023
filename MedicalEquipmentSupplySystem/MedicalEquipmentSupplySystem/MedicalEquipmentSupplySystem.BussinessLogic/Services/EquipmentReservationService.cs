@@ -45,11 +45,6 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
         {
             var reservation = _equipmentReservationRepository.Get(equipmentReservationId);
 
-            if (reservation.HospitalWorkerId != null)
-            {
-                throw new InvalidOperationException("Reservation has already been assigned.");
-            }
-
             reservation.HospitalWorkerId = hospitalWorkerId;
 
             try
@@ -159,7 +154,8 @@ namespace MedicalEquipmentSupplySystem.BussinessLogic.Services
 
         private byte[] GenerateQRCodeAsBytes(EquipmentReservation reservation)
         {
-            var qrContent = $"Equipment: {reservation.Equipment.Name}\n" +
+            var equipment = _equipmentRepository.GetEquipment(reservation.EquipmentId);
+            var qrContent = $"Equipment:{equipment.Name}\n" +
                      $"Date: {reservation.DateTime.ToShortDateString()}\n" +
                      $"Time: {reservation.DateTime.ToShortTimeString()}\n" +
                      $"Duration: {reservation.Duration + " " + "hours"} \n";

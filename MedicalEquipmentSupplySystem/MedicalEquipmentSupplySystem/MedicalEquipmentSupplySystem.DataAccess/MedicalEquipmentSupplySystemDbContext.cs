@@ -46,8 +46,9 @@ namespace MedicalEquipmentSupplySystem.DataAccess
                 x.Property(x => x.City).IsRequired(true);
                 x.Property(x => x.Country).IsRequired(true);
             });
- 
-        }
+
+
+            }
 
     }
 }
